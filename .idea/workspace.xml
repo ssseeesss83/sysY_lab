@@ -71,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667996426296</updated>
-      <workItem from="1667996428524" duration="8137000" />
+      <workItem from="1667996428524" duration="8472000" />
     </task>
     <servers />
   </component>
@@ -89,7 +89,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="lab1" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
