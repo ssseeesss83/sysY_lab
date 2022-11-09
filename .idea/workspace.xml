@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/SysYLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/SysYLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SysYLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SysYLexer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667996426296</updated>
-      <workItem from="1667996428524" duration="6590000" />
+      <workItem from="1667996428524" duration="6899000" />
     </task>
     <servers />
   </component>
@@ -82,7 +83,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="lab1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
