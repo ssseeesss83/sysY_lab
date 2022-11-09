@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/SysYLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SysYLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submit.sh" beforeDir="false" afterPath="$PROJECT_DIR$/submit.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +73,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667996426296</updated>
-      <workItem from="1667996428524" duration="7048000" />
+      <workItem from="1667996428524" duration="7153000" />
     </task>
     <servers />
   </component>
