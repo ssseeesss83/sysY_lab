@@ -13,9 +13,7 @@ public class MyErrorListener extends BaseErrorListener {
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         //super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
-            if(msg.charAt(msg.length()-2) != ' ') {
-                System.err.println("Error type A at Line " + line + ":" + msg);
-                hasError = true;
-            }
+        System.err.println("Error type A at Line " + line + ":" + msg);
+        hasError = true;
     }
 }

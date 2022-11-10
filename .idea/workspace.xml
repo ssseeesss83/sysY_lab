@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="" />
+    <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
+      <change afterPath="$PROJECT_DIR$/gen/SysYLexer.interp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/SysYLexer.tokens" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SysYLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab/MyErrorListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab/MyErrorListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab/SysYLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYLexer.g4" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab/SysYLexer.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lab/a.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lab/a.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyErrorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyErrorListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SysYLexer.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/SysYLexer.g4" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +84,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667996426296</updated>
-      <workItem from="1667996428524" duration="8472000" />
+      <workItem from="1667996428524" duration="11711000" />
+      <workItem from="1668052452849" duration="29000" />
     </task>
     <servers />
   </component>
@@ -111,6 +125,20 @@
           <url>jar://$MAVEN_REPOSITORY$/org/antlr/antlr4-runtime/4.10.1/antlr4-runtime-4.10.1.jar!/org/antlr/v4/runtime/LexerNoViableAltException.class</url>
           <line>12</line>
           <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MyErrorListener.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/MyErrorListener.java</url>
+          <line>13</line>
+          <properties class="MyErrorListener" method="syntaxError">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
