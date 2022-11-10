@@ -1,5 +1,4 @@
-// Generated from ./out/production/Lab/SysYLexer.g4 by ANTLR 4.10.1
-package SysY.Lexer;
+// Generated from ./src/SysYLexer.g4 by ANTLR 4.10.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
