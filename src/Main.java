@@ -36,7 +36,7 @@ public class Main
         int y = 0;
         if(x.startsWith("0x") || x.startsWith("0X")){
             y = Integer.valueOf(x.substring(2) , 16);
-        }else if(x.startsWith("0") || x.length()>1){
+        }else if(x.startsWith("0") && x.length()>1){
             y = Integer.valueOf(x.substring(1), 8);
         }else{
             y = Integer.parseInt(x);
