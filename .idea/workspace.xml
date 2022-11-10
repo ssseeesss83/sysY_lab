@@ -62,7 +62,7 @@
       <recent name="E:\bianyiyuanli\Lab\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Makefile Target.submit">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Lab" />
@@ -70,8 +70,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="submit" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="submit" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile Target.submit" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
