@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
-      <change afterPath="$PROJECT_DIR$/src/SysYLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SysYLexer.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/SysYLexer.g4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +83,8 @@
       <option name="presentableId" value="Default" />
       <updated>1667996426296</updated>
       <workItem from="1667996428524" duration="11711000" />
-      <workItem from="1668052452849" duration="1955000" />
+      <workItem from="1668052452849" duration="2632000" />
+      <workItem from="1668506398677" duration="677000" />
     </task>
     <servers />
   </component>
