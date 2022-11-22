@@ -88,11 +88,11 @@ public interface SysYParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFuncFParams(SysYParser.FuncFParamsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SysYParser#param}.
+	 * Visit a parse tree produced by {@link SysYParser#funcFParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParam(SysYParser.ParamContext ctx);
+	T visitFuncFParam(SysYParser.FuncFParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SysYParser#block}.
 	 * @param ctx the parse tree
@@ -159,6 +159,12 @@ public interface SysYParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFuncRParams(SysYParser.FuncRParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SysYParser#param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParam(SysYParser.ParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SysYParser#mulExp}.
 	 * @param ctx the parse tree

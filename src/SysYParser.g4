@@ -29,11 +29,9 @@ funcDef : funcType IDENT L_PAREN (funcFParams)? R_PAREN block;
 
 funcType : VOID | INT;
 
-funcFParams : param (COMMA param)*;
+funcFParams : funcFParam  (COMMA funcFParam)* ;
 
-param: exp;
-
-//funcFParam : bType IDENT (L_BRACKT R_BRACKT (L_BRACKT exp R_BRACKT)*)? ;
+funcFParam : bType IDENT (L_BRACKT R_BRACKT (L_BRACKT exp R_BRACKT)*)? ;
 
 block : L_BRACE blockItem* R_BRACE;
 
@@ -76,7 +74,13 @@ unaryExp : primaryExp
 
 unaryOp : PLUS | MINUS | NOT ;//注：NOT仅出现在条件表达式中
 
-funcRParams : exp  (COMMA exp)* ;
+funcRParams
+   : param (COMMA param)*
+   ;
+
+param
+   : exp
+   ;
 
 mulExp : unaryExp | mulExp (MUL | DIV | MOD) unaryExp;
 

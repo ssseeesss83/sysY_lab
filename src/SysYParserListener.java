@@ -137,15 +137,15 @@ public interface SysYParserListener extends ParseTreeListener {
 	 */
 	void exitFuncFParams(SysYParser.FuncFParamsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SysYParser#param}.
+	 * Enter a parse tree produced by {@link SysYParser#funcFParam}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam(SysYParser.ParamContext ctx);
+	void enterFuncFParam(SysYParser.FuncFParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SysYParser#param}.
+	 * Exit a parse tree produced by {@link SysYParser#funcFParam}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam(SysYParser.ParamContext ctx);
+	void exitFuncFParam(SysYParser.FuncFParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SysYParser#block}.
 	 * @param ctx the parse tree
@@ -256,6 +256,16 @@ public interface SysYParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFuncRParams(SysYParser.FuncRParamsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SysYParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterParam(SysYParser.ParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SysYParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitParam(SysYParser.ParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SysYParser#mulExp}.
 	 * @param ctx the parse tree

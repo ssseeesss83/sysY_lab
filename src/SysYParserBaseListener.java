@@ -171,13 +171,13 @@ public class SysYParserBaseListener implements SysYParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam(SysYParser.ParamContext ctx) { }
+	@Override public void enterFuncFParam(SysYParser.FuncFParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam(SysYParser.ParamContext ctx) { }
+	@Override public void exitFuncFParam(SysYParser.FuncFParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -310,6 +310,18 @@ public class SysYParserBaseListener implements SysYParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFuncRParams(SysYParser.FuncRParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParam(SysYParser.ParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParam(SysYParser.ParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
