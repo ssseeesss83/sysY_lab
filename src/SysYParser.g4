@@ -54,7 +54,11 @@ exp : L_PAREN exp R_PAREN
 | exp (MUL | DIV | MOD) exp
 | exp (PLUS | MINUS) exp;
 
-cond : lOrExp;
+cond : exp #expCond
+| cond (LT | GT | LE | GE) cond #ltCond
+| cond (EQ | NEQ) cond #eqCond
+| cond AND cond #andCond
+| cond OR cond #orCond;
 
 lVal : IDENT (L_BRACKT exp R_BRACKT)*;
 
@@ -82,16 +86,16 @@ param
    : exp
    ;
 
-mulExp : unaryExp | mulExp (MUL | DIV | MOD) unaryExp;
+//mulExp : unaryExp | mulExp (MUL | DIV | MOD) unaryExp;
+//
+//addExp : mulExp | addExp (PLUS | MINUS) mulExp;
+//
+//relExp : addExp | relExp (LT | GT | LE | GE) addExp;
+//
+//eqExp : relExp | eqExp (EQ | NEQ) relExp;
 
-addExp : mulExp | addExp (PLUS | MINUS) mulExp;
+//lAndExp : eqExp | lAndExp AND eqExp;
 
-relExp : addExp | relExp (LT | GT | LE | GE) addExp;
-
-eqExp : relExp | eqExp (EQ | NEQ) relExp;
-
-lAndExp : eqExp | lAndExp AND eqExp;
-
-lOrExp : lAndExp | lOrExp OR lAndExp;
+//lOrExp : lAndExp | lOrExp OR lAndExp;
 
 constExp : exp;// 注：使用的 IDENT 必须是常量
