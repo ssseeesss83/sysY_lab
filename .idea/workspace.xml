@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
-      <change afterPath="$PROJECT_DIR$/gen/SysYLexer.interp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gen/SysYLexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gen/SysYLexer.tokens" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gen/SysYParser.interp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MyVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParser.g4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParserBaseListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParserBaseVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParserListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SysYParserVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyErrorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyErrorListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +94,7 @@
       <workItem from="1668506398677" duration="968000" />
       <workItem from="1669018586578" duration="11480000" />
       <workItem from="1669085647257" duration="1527000" />
-      <workItem from="1669110819369" duration="3601000" />
+      <workItem from="1669110819369" duration="3865000" />
     </task>
     <servers />
   </component>
