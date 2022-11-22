@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +48,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$MAVEN_REPOSITORY$/org/antlr/antlr4/4.10.1/antlr4-4.10.1.jar" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.39770114" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
@@ -103,7 +102,7 @@
       <workItem from="1668506398677" duration="968000" />
       <workItem from="1669018586578" duration="11480000" />
       <workItem from="1669085647257" duration="1527000" />
-      <workItem from="1669110819369" duration="9463000" />
+      <workItem from="1669110819369" duration="9871000" />
     </task>
     <servers />
   </component>
