@@ -2,61 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
-      <change beforePath="$PROJECT_DIR$/gen/SysYLexer.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/SysYLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/SysYLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/SysYParser.interp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/MyErrorListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/MyVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYLexer.g4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYLexer.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$AndCondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$BTypeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$BlockContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$BlockItemContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$CallFuncExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$CompUnitContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$CondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ConstDeclContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ConstDefContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ConstExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ConstInitValContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$DeclContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$EqCondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ExpCondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ExpParenthesisContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$FuncDefContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$FuncFParamContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$FuncFParamsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$FuncRParamsContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$FuncTypeContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$InitValContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$LValContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$LtCondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$LvalExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$MulExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$NumberContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$NumberExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$OrCondContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ParamContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$PlusExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$ProgramContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$StmtContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$UnaryOpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$UnaryOpExpContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$VarDeclContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser$VarDefContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser.g4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParser.tokens" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParserBaseListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParserBaseVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParserListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/SysYParserVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lab/a.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,13 +58,19 @@
       <recent name="E:\bianyiyuanli\Lab\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Makefile Target.clean">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Lab" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="clean" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="clean" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
     </configuration>
     <configuration name="submit" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/Makefile" target="submit" workingDirectory="" arguments="">
@@ -128,9 +80,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile Target.clean" />
+        <item itemvalue="Makefile Target.submit" />
+        <item itemvalue="Makefile Target.submit" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Makefile Target.submit" />
-        <item itemvalue="Makefile Target.submit" />
         <item itemvalue="Makefile Target.submit" />
       </list>
     </recent_temporary>
@@ -148,7 +101,7 @@
       <workItem from="1668506398677" duration="968000" />
       <workItem from="1669018586578" duration="11480000" />
       <workItem from="1669085647257" duration="1527000" />
-      <workItem from="1669110819369" duration="8029000" />
+      <workItem from="1669110819369" duration="8110000" />
     </task>
     <servers />
   </component>
