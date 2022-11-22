@@ -44,14 +44,14 @@ public class MyVisitor extends SysYParserBaseVisitor<Void>{
     @Override
     public Void visitChildren(RuleNode node) {
         tempParent = node;
-        for(int i = 0; i < node.getRuleContext().depth(); i++) System.err.print("  ");
+        for(int i = 0; i < node.getRuleContext().depth()-1; i++) System.err.print("  ");
         System.err.println(capitalize(SysYParser.ruleNames[node.getRuleContext().getRuleIndex()]));
         return super.visitChildren(node);
     }
 
     @Override
     public Void visitTerminal(TerminalNode node) {
-        int depth = tempParent.getRuleContext().depth();
+        int depth = tempParent.getRuleContext().depth()-1;
         if(tempParent == node.getParent()){
             depth++;
         }
