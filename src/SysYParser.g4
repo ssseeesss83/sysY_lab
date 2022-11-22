@@ -94,4 +94,4 @@ lAndExp : eqExp | lAndExp AND eqExp;
 
 lOrExp : lAndExp | lOrExp OR lAndExp;
 
-constExp : addExp;// 注：使用的 IDENT 必须是常量
+constExp : exp;// 注：使用的 IDENT 必须是常量
