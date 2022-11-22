@@ -177,25 +177,149 @@ public interface SysYParserListener extends ParseTreeListener {
 	 */
 	void exitStmt(SysYParser.StmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SysYParser#exp}.
+	 * Enter a parse tree produced by the {@code expParenthesis}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp(SysYParser.ExpContext ctx);
+	void enterExpParenthesis(SysYParser.ExpParenthesisContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SysYParser#exp}.
+	 * Exit a parse tree produced by the {@code expParenthesis}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp(SysYParser.ExpContext ctx);
+	void exitExpParenthesis(SysYParser.ExpParenthesisContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SysYParser#cond}.
+	 * Enter a parse tree produced by the {@code callFuncExp}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void enterCond(SysYParser.CondContext ctx);
+	void enterCallFuncExp(SysYParser.CallFuncExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SysYParser#cond}.
+	 * Exit a parse tree produced by the {@code callFuncExp}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void exitCond(SysYParser.CondContext ctx);
+	void exitCallFuncExp(SysYParser.CallFuncExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code numberExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberExp(SysYParser.NumberExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberExp(SysYParser.NumberExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryOpExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryOpExp(SysYParser.UnaryOpExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryOpExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryOpExp(SysYParser.UnaryOpExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code plusExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlusExp(SysYParser.PlusExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code plusExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlusExp(SysYParser.PlusExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mulExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulExp(SysYParser.MulExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mulExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulExp(SysYParser.MulExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lvalExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void enterLvalExp(SysYParser.LvalExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lvalExp}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 */
+	void exitLvalExp(SysYParser.LvalExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ltCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterLtCond(SysYParser.LtCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ltCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitLtCond(SysYParser.LtCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code orCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrCond(SysYParser.OrCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code orCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrCond(SysYParser.OrCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code expCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpCond(SysYParser.ExpCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code expCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpCond(SysYParser.ExpCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code andCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndCond(SysYParser.AndCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndCond(SysYParser.AndCondContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code eqCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqCond(SysYParser.EqCondContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code eqCond}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqCond(SysYParser.EqCondContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SysYParser#lVal}.
 	 * @param ctx the parse tree
@@ -207,16 +331,6 @@ public interface SysYParserListener extends ParseTreeListener {
 	 */
 	void exitLVal(SysYParser.LValContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SysYParser#primaryExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimaryExp(SysYParser.PrimaryExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#primaryExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimaryExp(SysYParser.PrimaryExpContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link SysYParser#number}.
 	 * @param ctx the parse tree
 	 */
@@ -226,16 +340,6 @@ public interface SysYParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNumber(SysYParser.NumberContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#unaryExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterUnaryExp(SysYParser.UnaryExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#unaryExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitUnaryExp(SysYParser.UnaryExpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SysYParser#unaryOp}.
 	 * @param ctx the parse tree
@@ -266,66 +370,6 @@ public interface SysYParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParam(SysYParser.ParamContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#mulExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulExp(SysYParser.MulExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#mulExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulExp(SysYParser.MulExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#addExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddExp(SysYParser.AddExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#addExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddExp(SysYParser.AddExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#relExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelExp(SysYParser.RelExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#relExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelExp(SysYParser.RelExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#eqExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterEqExp(SysYParser.EqExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#eqExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitEqExp(SysYParser.EqExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#lAndExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterLAndExp(SysYParser.LAndExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#lAndExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitLAndExp(SysYParser.LAndExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SysYParser#lOrExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterLOrExp(SysYParser.LOrExpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SysYParser#lOrExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitLOrExp(SysYParser.LOrExpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SysYParser#constExp}.
 	 * @param ctx the parse tree
