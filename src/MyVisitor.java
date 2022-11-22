@@ -1,3 +1,4 @@
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -39,11 +40,9 @@ public class MyVisitor extends SysYParserBaseVisitor<Void>{
     //数字与字符串
     "INTEGR_CONST[green]"};
 
-    RuleNode tempParent;
 
     @Override
     public Void visitChildren(RuleNode node) {
-        tempParent = node;
         for(int i = 0; i < node.getRuleContext().depth()-1; i++) System.err.print("  ");
         System.err.println(capitalize(SysYParser.ruleNames[node.getRuleContext().getRuleIndex()]));
         return super.visitChildren(node);
@@ -51,12 +50,12 @@ public class MyVisitor extends SysYParserBaseVisitor<Void>{
 
     @Override
     public Void visitTerminal(TerminalNode node) {
-        int depth = tempParent.getRuleContext().depth()-1;
-        if(tempParent == node.getParent()){
+        int depth = 0;
+        ParseTree tempParent = node.getParent();
+        while(tempParent!=null){
+            tempParent = tempParent.getParent();
             depth++;
         }
-
-
         int type = node.getSymbol().getType();
         if(type!=-1 && (type <= 24 || type == 33 || type == 34)) {
             for(int i = 0; i < depth; i++) System.err.print("  ");
