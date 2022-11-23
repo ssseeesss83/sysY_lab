@@ -8,14 +8,14 @@ compUnit : ( decl | funcDef )+ EOF;
 
 decl : constDecl | varDecl;
 
-constDecl : CONST bType constDef (COMMA constDef SEMICOLON)*;
+constDecl : CONST bType constDef (COMMA constDef )* SEMICOLON;
 
 bType : INT;
 
 constDef : IDENT (L_BRACKT constExp R_BRACKT)* ASSIGN constInitVal;
 
 constInitVal : constExp
-| L_BRACE (constInitVal COMMA constInitVal)? R_BRACE;
+| L_BRACE (constInitVal (COMMA constInitVal)*)? R_BRACE;
 
 varDecl : bType varDef (COMMA varDef)* SEMICOLON;
 
