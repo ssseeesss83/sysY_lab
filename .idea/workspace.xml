@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8588ac-d233-4cd5-ab16-2c952d3648a4" name="Changes" comment="2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SysYLexer.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/SysYLexer.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyErrorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyErrorListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +103,7 @@
       <workItem from="1669018586578" duration="11480000" />
       <workItem from="1669085647257" duration="1527000" />
       <workItem from="1669110819369" duration="11672000" />
-      <workItem from="1669174438822" duration="581000" />
+      <workItem from="1669174438822" duration="996000" />
     </task>
     <servers />
   </component>
