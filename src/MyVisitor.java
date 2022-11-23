@@ -59,7 +59,12 @@ public class MyVisitor extends SysYParserBaseVisitor<Void>{
         int type = node.getSymbol().getType();
         if(type!=-1 && (type <= 24 || type == 33 || type == 34)) {
             for(int i = 0; i < depth; i++) System.err.print("  ");
-            System.err.println(node.getSymbol().getText() +" "+ terminalText[type - 1]);
+
+            if(node.getSymbol().getType() == SysYLexer.INTEGR_CONST){
+                System.err.println(Main.toDemical(node.getSymbol().getText()) + " " + terminalText[type - 1]);
+                }else {
+                System.err.println(node.getSymbol().getText() + " " + terminalText[type - 1]);
+            }
         }
 
         return super.visitTerminal(node);
