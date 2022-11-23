@@ -1,79 +1,103 @@
 lexer grammar SysYLexer;
 
-CONST: 'const';
+CONST : 'const';
 
-INT: 'int';
+INT : 'int';
 
-VOID: 'void';
+VOID : 'void';
 
-IF: 'if';
+IF : 'if';
 
-ELSE: 'else';
+ELSE : 'else';
 
-WHILE: 'while';
+WHILE : 'while';
 
-BREAK: 'break';
+BREAK : 'break';
 
-CONTINUE: 'continue';
+CONTINUE : 'continue';
 
-RETURN: 'return';
+RETURN : 'return';
 
-PLUS: '+';
+PLUS : '+';
 
-MINUS: '-';
+MINUS : '-';
 
-MUL: '*';
+MUL : '*';
 
-DIV: '/';
+DIV : '/';
 
-MOD: '%';
+MOD : '%';
 
-ASSIGN: '=';
+ASSIGN : '=';
 
-EQ: '==';
+EQ : '==';
 
-NEQ: '!=';
+NEQ : '!=';
 
-LT: '<';
+LT : '<';
 
-GT: '>';
+GT : '>';
 
-LE: '<=';
+LE : '<=';
 
-GE: '>=';
+GE : '>=';
 
-NOT: '!';
+NOT : '!';
 
-AND: '&&';
+AND : '&&';
 
-OR: '||';
+OR : '||';
 
-L_PAREN: '(';
+L_PAREN : '(';
 
-R_PAREN: ')';
+R_PAREN : ')';
 
-L_BRACE: '{';
+L_BRACE : '{';
 
-R_BRACE: '}';
+R_BRACE : '}';
 
-L_BRACKT: '[';
+L_BRACKT : '[';
 
-R_BRACKT: ']';
+R_BRACKT : ']';
 
-COMMA: ',';
+COMMA : ',';
 
-SEMICOLON: ';';
+SEMICOLON : ';';
 
-IDENT:  ('_'|LETTER)('_'|LETTER|DIGIT)*; //以下划线或字母开头，仅包含下划线、英文字母大小写、阿拉伯数字;
+IDENT
+   : [_a-zA-Z] [_a-zA-Z0-9]*
+   ;
 
-INTEGR_CONST:  (('0X'|'0x')(DIGIT|[a-fA-F])+) | ('0'|[1-9]DIGIT*) | ('0'[0-7]*); //数字常量，包含十进制数，0开头的八进制数，0x或0X开头的十六进制数;
+INTEGR_CONST
+   : DECIMAL_CONST
+   | OCTAL_CONST
+   | HEXADECIMAL_CONST
+   ;
 
-WS: [ \r\n\t]+ -> skip;
+fragment
+DECIMAL_CONST
+   : '0'
+   | [1-9] [0-9]*
+   ;
 
-LINE_COMMENT: '//' .*? '\n' -> skip;
+fragment
+OCTAL_CONST:
+   '0' [0-7]+
+   ;
 
-MULTILINE_COMMENT: '/*' .*? '*/' -> skip;
+fragment
+HEXADECIMAL_CONST
+   : ('0x' | '0X') [a-fA-F0-9]+
+   ;
 
-fragment DIGIT:[0-9];
+WS
+   : [ \r\n\t]+ -> skip
+   ;
 
-fragment LETTER:[a-zA-Z];
+LINE_COMMENT
+   : '//' .*? '\n' -> skip
+   ;
+
+MULTILINE_COMMENT
+   : '/*' .*? '*/' -> skip
+   ;
