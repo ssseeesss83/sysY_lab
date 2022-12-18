@@ -1,8 +1,8 @@
+int b;
 int a() {
     return 10;
 }
 
 void main() {
-    int a = 3;
-    int b = 4;
+    b=0;
 }
