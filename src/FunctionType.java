@@ -5,8 +5,8 @@ public class FunctionType extends BaseType{
 
     @Override
     public boolean equals(BaseType type) {
-        if(type instanceof FunctionType
-        &&((FunctionType) type).returnType.equals(this.returnType)
+        if(type instanceof FunctionType && ((((FunctionType) type).returnType==null && this.returnType==null)
+         || ((FunctionType) type).returnType.equals(this.returnType))
         &&((FunctionType) type).paramTypes.size() == this.paramTypes.size()){
             return true;
         }//else return type instanceof PrimaryType && returnType.equals("int");

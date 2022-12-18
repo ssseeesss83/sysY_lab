@@ -333,14 +333,9 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
             isFunctionBlock = false;
             super.visitBlock(ctx);
             if(visitFunctionBlock) {
-                if(ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null) {
+                if(currentFuncRetType!=null && ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null) {
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
                     if (!retType.equals(currentFuncRetType)) {
-                        hasError = true;
-                        System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
-                    }
-                }else{
-                    if(currentFuncRetType!=null){
                         hasError = true;
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
                     }
