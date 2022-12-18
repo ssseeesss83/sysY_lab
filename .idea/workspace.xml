@@ -109,7 +109,7 @@
       <workItem from="1671081843889" duration="30017000" />
       <workItem from="1671196905320" duration="1193000" />
       <workItem from="1671349498249" duration="90000" />
-      <workItem from="1671349709164" duration="11181000" />
+      <workItem from="1671349709164" duration="11683000" />
     </task>
     <servers />
   </component>
@@ -127,17 +127,6 @@
                   <entry key="Show.Git.Branches" value="false" />
                 </map>
               </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="lab2" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
             </State>
           </value>
         </entry>
@@ -148,6 +137,11 @@
         <entry key="Branch">
           <value>
             <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="lab3" />
+                </option>
+              </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="lab2" />
