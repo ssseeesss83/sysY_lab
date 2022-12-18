@@ -333,7 +333,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
             isFunctionBlock = false;
             super.visitBlock(ctx);
             if(visitFunctionBlock) {
-                if(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp()!=null) {
+                if(ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null) {
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
                     if (!retType.equals(currentFuncRetType)) {
                         hasError = true;

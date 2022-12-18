@@ -17,7 +17,7 @@ public class Main
 //        int lineNo = 8;
 //        int column = 4;
 //        String name = "d";
-        //String source = "E:\\bianyiyuanli\\Lab\\src\\a.txt";
+//        String source = "E:\\bianyiyuanli\\Lab\\src\\a.txt";
         CharStream input = CharStreams.fromFileName(source);
         SysYLexer sysYLexer = new SysYLexer(input);
         //String[] ruleNames = sysYLexer.getRuleNames();
