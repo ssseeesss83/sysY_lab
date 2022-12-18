@@ -7,11 +7,17 @@ import java.util.List;
 public class Main
 {
     public static void main(String[] args) throws IOException {
-        if (args.length < 1) {
-            System.err.println("input path is required");
-        }
-        String source = args[0];
-        //String source = "E:\\bianyiyuanli\\Lab\\src\\a.txt";
+//        if (args.length < 1) {
+//            System.err.println("input path is required");
+//        }
+//        String source = args[0];
+//        int lineNo = Integer.parseInt(args[1]);
+//        int column = Integer.parseInt(args[2]);
+//        String name = args[3];
+        int lineNo = 8;
+        int column = 4;
+        String name = "d";
+        String source = "E:\\bianyiyuanli\\Lab\\src\\a.txt";
         CharStream input = CharStreams.fromFileName(source);
         SysYLexer sysYLexer = new SysYLexer(input);
         //String[] ruleNames = sysYLexer.getRuleNames();
@@ -22,21 +28,19 @@ public class Main
         sysYParser.removeErrorListeners();
         sysYParser.addErrorListener(myErrorListener);
         ParseTree tree = sysYParser.program();
-        MyVisitor visitor = new MyVisitor();
-//        List<? extends Token> tokens = sysYLexer.getAllTokens();
 
-//        if(!myErrorListener.hasError) {
-//            for (Token token : tokens) {
-//                String text = token.getText();
-//                if(token.getType() == SysYLexer.INTEGR_CONST){
-//                    text = toDemical(text);
-//                }
-//                System.err.println(ruleNames[token.getType() - 1] + " " + text + " " + "at" + " " + "Line" + " " + token.getLine() + ".");
-//            }
-//        }
-        if(!myErrorListener.hasError) {
+        SymbolVisitor symbolVisitor = new SymbolVisitor();
+        symbolVisitor.lineNo = lineNo;
+        symbolVisitor.column = column;
+        symbolVisitor.visit(tree);
+        if(!symbolVisitor.hasError){
+            MyVisitor visitor = new MyVisitor(symbolVisitor.toRename, name);
             visitor.visit(tree);
         }
+//        System.out.println("...");
+//        if(!myErrorListener.hasError) {
+//            visitor.visit(tree);
+//        }
     }
 
     public static String toDemical(String x){

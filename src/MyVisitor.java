@@ -3,8 +3,15 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class MyVisitor extends SysYParserBaseVisitor<Void>{
+    private Symbol symbol;
+    private String name;
+    MyVisitor(Symbol symbol, String name){
+        this.symbol = symbol;
+        this.name = name;
+    }
 
     String[] terminalText = {
     //保留字
@@ -62,7 +69,14 @@ public class MyVisitor extends SysYParserBaseVisitor<Void>{
 
             if(node.getSymbol().getType() == SysYLexer.INTEGR_CONST){
                 System.err.println(Main.toDemical(node.getSymbol().getText()) + " " + terminalText[type - 1]);
-                }else {
+            }else if(node.getSymbol().getType()== SysYLexer.IDENT){
+                String where = node.getSymbol().getLine()+"_"+node.getSymbol().getCharPositionInLine();
+                if(symbol.used.contains(where)){
+                    System.err.println(name + " " + terminalText[type - 1]);
+                }else{
+                    System.err.println(node.getSymbol().getText() + " " + terminalText[type - 1]);
+                }
+            }else {
                 System.err.println(node.getSymbol().getText() + " " + terminalText[type - 1]);
             }
         }
