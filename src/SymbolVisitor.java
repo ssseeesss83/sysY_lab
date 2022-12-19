@@ -243,9 +243,11 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         if(getExpType(ctx) instanceof UndefinedType){
             return null;
         }
-        if(getExpType(ctx)==null){
+        BaseType a = getExpType(ctx.exp());
+        if(!(a instanceof PrimaryType)){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.unaryOp().getChild(0)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
+            return null;
         }
         return null;
     }
@@ -256,9 +258,17 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         if(getExpType(ctx) instanceof UndefinedType){
             return null;
         }
-        if(getExpType(ctx)==null && !(ctx.getParent() instanceof SysYParser.PlusExpContext)){
+        BaseType a = getExpType(ctx.exp(0));
+        if(!(a instanceof PrimaryType)){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
+            return null;
+        }
+        BaseType b = getExpType(ctx.exp(1));
+        if(!(b instanceof PrimaryType)){
+            System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
+            hasError = true;
+            return null;
         }
         return null;
     }
@@ -269,9 +279,17 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         if(getExpType(ctx) instanceof UndefinedType){
             return null;
         }
-        if(getExpType(ctx)==null && !(ctx.getParent() instanceof SysYParser.MulExpContext)){
+        BaseType a = getExpType(ctx.exp(0));
+        if(!(a instanceof PrimaryType)){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
+            return null;
+        }
+        BaseType b = getExpType(ctx.exp(1));
+        if(!(b instanceof PrimaryType)){
+            System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
+            hasError = true;
+            return null;
         }
         return null;
     }
