@@ -370,7 +370,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                         return null;
                     }
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
-                    if (!retType.equals(currentFuncRetType)) {
+                    if (retType == null || !retType.equals(currentFuncRetType)) {
                         hasError = true;
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
                     }
