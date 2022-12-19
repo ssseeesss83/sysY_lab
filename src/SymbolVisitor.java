@@ -138,7 +138,11 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                 return super.visitCallFuncExp(ctx);
             }else{
                 for(int i = 0 ; i < rParams.size(); i++){
-                    if(!getExpType(rParams.get(i).exp()).equals(funcType.getParams().get(i))){
+                    if(getExpType(rParams.get(i).exp())!=null &&!getExpType(rParams.get(i).exp()).equals(funcType.getParams().get(i))){
+                        System.err.println("Error type 8 at Line "+ctx.IDENT().getSymbol().getLine()+":Function arguments type mismatched:"+ctx.IDENT().getText());
+                        hasError = true;
+                        return super.visitCallFuncExp(ctx);
+                    }else if(getExpType(rParams.get(i).exp())==null){
                         System.err.println("Error type 8 at Line "+ctx.IDENT().getSymbol().getLine()+":Function arguments type mismatched:"+ctx.IDENT().getText());
                         hasError = true;
                         return super.visitCallFuncExp(ctx);
