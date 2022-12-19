@@ -1,8 +1,15 @@
-int b;
 int a() {
     return 10;
 }
 
-void main() {
-    b=0;
+int f(int a){
+    return a;
+}
+
+int main() {
+    int a = 3;
+    int b = 4;
+    a = 5;
+    a = f(a);
+    return a;
 }

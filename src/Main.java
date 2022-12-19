@@ -14,9 +14,9 @@ public class Main
         int lineNo = Integer.parseInt(args[1]);
         int column = Integer.parseInt(args[2]);
         String name = args[3];
-//        int lineNo = 8;
+//        int lineNo = 12;
 //        int column = 4;
-//        String name = "d";
+//        String name = "XXX";
 //        String source = "E:\\bianyiyuanli\\Lab\\src\\a.txt";
         CharStream input = CharStreams.fromFileName(source);
         SysYLexer sysYLexer = new SysYLexer(input);

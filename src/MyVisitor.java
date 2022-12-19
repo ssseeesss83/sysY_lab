@@ -4,8 +4,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 
 public class MyVisitor extends SysYParserBaseVisitor<Void>{
-    private Symbol symbol;
-    private String name;
+    private final Symbol symbol;
+    private final String name;
     MyVisitor(Symbol symbol, String name){
         this.symbol = symbol;
         this.name = name;

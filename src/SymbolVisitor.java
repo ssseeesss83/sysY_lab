@@ -84,10 +84,11 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                         }
                     }
                 } else if (exp instanceof SysYParser.CallFuncExpContext) {
-                    if (getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()) == null) {
+                    if (getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()) == null
+                        || !(Objects.requireNonNull(getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText())).getType() instanceof FunctionType)) {
                         return null;
                     }
-                    rType = Objects.requireNonNull(getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText())).getType();
+                    rType = ((FunctionType) Objects.requireNonNull(getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText())).getType()).getReturnType();
                     if (!lType.equals(rType)) {
                         System.err.println("Error type 5 at Line " + ctx.lVal().IDENT().getSymbol().getLine() + ":Type mismatched:" + ctx.lVal().IDENT().getText());
                         hasError = true;
@@ -186,7 +187,8 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         }else if(exp instanceof SysYParser.NumberExpContext){
             return new PrimaryType();
         }else if(exp instanceof SysYParser.CallFuncExpContext){
-            if(getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText())!=null){
+            if(getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText())!=null
+            &&getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()).getType() instanceof FunctionType ){
                 return ((FunctionType) getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()).getType()).getReturnType();
             }
             return null;
@@ -334,6 +336,10 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
             super.visitBlock(ctx);
             if(visitFunctionBlock) {
                 if(currentFuncRetType!=null && ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null) {
+                    if(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp()==null){
+                        System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
+                        return null;
+                    }
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
                     if (!retType.equals(currentFuncRetType)) {
                         hasError = true;
