@@ -158,6 +158,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
     }
 
     @Override
+    /// null is ErrorType; Undefined Means some variable in the exp is not defined!!!
     public Void visitExpCond(SysYParser.ExpCondContext ctx) {
         BaseType type = getExpType(ctx.exp());
         if(!(type instanceof PrimaryType)){
@@ -171,6 +172,9 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         if(exp instanceof SysYParser.PlusExpContext){
             BaseType typeA = getExpType(((SysYParser.PlusExpContext) exp).exp(0));
             BaseType typeB = getExpType(((SysYParser.PlusExpContext) exp).exp(1));
+            if(typeA instanceof UndefinedType || typeB instanceof UndefinedType){
+                return new UndefinedType();
+            }
             if(typeA == null || typeB == null){
                 return null;
             }
@@ -186,6 +190,12 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         }else if(exp instanceof SysYParser.MulExpContext){
             BaseType typeA = getExpType(((SysYParser.MulExpContext) exp).exp(0));
             BaseType typeB = getExpType(((SysYParser.MulExpContext) exp).exp(1));
+            if(typeA instanceof UndefinedType || typeB instanceof UndefinedType){
+                return new UndefinedType();
+            }
+            if(typeA == null || typeB == null){
+                return null;
+            }
             if(typeA.equals(typeB)){
                 return typeA;
             }else{
@@ -210,7 +220,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                 }
                 return type;
             }
-            return null;
+            return new UndefinedType();
         }else if(exp instanceof SysYParser.UnaryOpExpContext){
             return getExpType(((SysYParser.UnaryOpExpContext) exp).exp());
         }else if(exp instanceof SysYParser.NumberExpContext){
@@ -220,16 +230,19 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
             &&getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()).getType() instanceof FunctionType ){
                 return ((FunctionType) getSymbol(((SysYParser.CallFuncExpContext) exp).IDENT().getText()).getType()).getReturnType();
             }
-            return null;
+            return new UndefinedType();
         }else if(exp instanceof SysYParser.ExpParenthesisContext){
             return getExpType(((SysYParser.ExpParenthesisContext) exp).exp());
         }
-        return null;
+        return new UndefinedType();
     }
 
     @Override
     public Void visitUnaryOpExp(SysYParser.UnaryOpExpContext ctx) {
         super.visitUnaryOpExp(ctx);
+        if(getExpType(ctx) instanceof UndefinedType){
+            return null;
+        }
         if(getExpType(ctx)==null){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.unaryOp().getChild(0)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
@@ -240,6 +253,9 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
     @Override
     public Void visitPlusExp(SysYParser.PlusExpContext ctx) {
         super.visitPlusExp(ctx);
+        if(getExpType(ctx) instanceof UndefinedType){
+            return null;
+        }
         if(getExpType(ctx)==null && !(ctx.getParent() instanceof SysYParser.PlusExpContext)){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
@@ -250,6 +266,9 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
     @Override
     public Void visitMulExp(SysYParser.MulExpContext ctx) {
         super.visitMulExp(ctx);
+        if(getExpType(ctx) instanceof UndefinedType){
+            return null;
+        }
         if(getExpType(ctx)==null && !(ctx.getParent() instanceof SysYParser.MulExpContext)){
             System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.getChild(1)).getSymbol().getLine()+":Type mismatched for op.");
             hasError = true;
@@ -336,13 +355,21 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         if(ctx.funcFParams() != null) {
             for (SysYParser.FuncFParamContext param : ctx.funcFParams().funcFParam() //遍历形参
             ) {
-                type.addParamType(new PrimaryType());
+
                 String paramName = param.IDENT().getText();
+
+                if(isDeclaredAtSameScope(paramName)){
+                    System.err.println("Error type 3 at Line "+ctx.IDENT().getSymbol().getLine()+":Redefined variable:"+paramName);
+                    hasError = true;
+                    break;
+                }
                 Symbol paramSymbol = new Symbol(paramName, new PrimaryType(), currentScope);
+                type.addParamType(new PrimaryType());
                 symbolTable.put(formatName(paramName), paramSymbol);
             }
         }
-
+        Symbol symbol = new Symbol(name, type, currentScope.getParent());
+        symbolTable.put(formatName(name, currentScope.getParent()), symbol);
         super.visitFuncDef(ctx);
 
         //return type check:
@@ -353,8 +380,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
 //        }
         isFunctionBlock = false;
         currentScope = currentScope.getParent();
-        Symbol symbol = new Symbol(name, type, currentScope);
-        symbolTable.put(formatName(name), symbol);
+
         return null;
     }
 
@@ -362,15 +388,16 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
     public Void visitBlock(SysYParser.BlockContext ctx) {
         if(isFunctionBlock){
             isFunctionBlock = false;
-            super.visitBlock(ctx);
             if(visitFunctionBlock) {
+                super.visitBlock(ctx);
                 if(currentFuncRetType!=null && ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null) {
                     if(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp()==null){
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
                         return null;
                     }
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
-                    if (retType == null || !retType.equals(currentFuncRetType)) {
+                    if(retType instanceof UndefinedType) return null;
+                    if (!retType.equals(currentFuncRetType)) {
                         hasError = true;
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
                     }
