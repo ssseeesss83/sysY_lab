@@ -153,6 +153,16 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         return super.visitCallFuncExp(ctx);
     }
 
+    @Override
+    public Void visitExpCond(SysYParser.ExpCondContext ctx) {
+        BaseType type = getExpType(ctx.exp());
+        if(!(type instanceof PrimaryType)){
+            hasError = true;
+            System.err.println("Error type 6 at Line "+ ((TerminalNode) ctx.exp().getChild(0).getChild(0)).getSymbol().getLine()+":Type mismatched for op.");
+        }
+        return super.visitExpCond(ctx);
+    }
+
     public BaseType getExpType(SysYParser.ExpContext exp){
         if(exp instanceof SysYParser.PlusExpContext){
             BaseType typeA = getExpType(((SysYParser.PlusExpContext) exp).exp(0));
@@ -179,7 +189,22 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
             }
         }else if(exp instanceof SysYParser.LvalExpContext){
             if(getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText())!=null){
-                return getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText()).getType();
+                BaseType type = getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText()).getType();
+                if(type instanceof PrimaryType) return type;
+                if(type instanceof ArrayType){
+                    int layer = ((SysYParser.LvalExpContext) exp).lVal().L_BRACKT().size();
+                    int totalDim = ((ArrayType) type).getDim();
+                    if(layer == totalDim){
+                        return new PrimaryType();
+                    }else{
+                        ArrayType _type = new ArrayType();
+                        for(int i = 0; i < totalDim-layer; i ++){
+                            _type.addDimension(((ArrayType) type).getSizes().get(i));
+                        }
+                        return _type;
+                    }
+                }
+                return type;
             }
             return null;
         }else if(exp instanceof SysYParser.UnaryOpExpContext){
