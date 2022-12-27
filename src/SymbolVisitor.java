@@ -340,6 +340,17 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         for (SysYParser.ConstDefContext constDef:constDefs
              ) {
             declHandler(constDef.IDENT(), constDef.constExp());
+            if(constDef.constInitVal()!=null){
+                if(constDef.constInitVal().constExp().exp() instanceof SysYParser.LvalExpContext){
+                    if(getSymbol(((SysYParser.LvalExpContext) constDef.constInitVal().constExp().exp()).lVal().IDENT().getText()) == null){
+                        return super.visitConstDecl(ctx);
+                    }
+                }
+                if(getExpType(constDef.constInitVal().constExp().exp())==null || !getExpType(constDef.constInitVal().constExp().exp()).equals(getSymbol(constDef.IDENT().getText()))){
+                    System.err.println("Error type 5 at Line " + constDef.IDENT().getSymbol().getLine() + ":Type mismatched:" + constDef.IDENT().getText());
+                    hasError = true;
+                }
+            }
         }
         return super.visitConstDecl(ctx);
     }
@@ -350,6 +361,17 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
         for (SysYParser.VarDefContext varDef:varDefs
         ) {
             declHandler(varDef.IDENT(), varDef.constExp());
+            if(varDef.initVal()!=null){
+                if(varDef.initVal().exp() instanceof SysYParser.LvalExpContext){
+                    if(getSymbol(((SysYParser.LvalExpContext) varDef.initVal().exp()).lVal().IDENT().getText()) == null){
+                        return super.visitVarDecl(ctx);
+                    }
+                }
+                if(getExpType(varDef.initVal().exp())==null || !getExpType(varDef.initVal().exp()).equals(getSymbol(varDef.IDENT().getText()))){
+                    System.err.println("Error type 5 at Line " + varDef.IDENT().getSymbol().getLine() + ":Type mismatched:" + varDef.IDENT().getText());
+                    hasError = true;
+                }
+            }
         }
         return super.visitVarDecl(ctx);
     }
