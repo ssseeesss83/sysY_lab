@@ -32,6 +32,7 @@ public class Main
         SymbolVisitor symbolVisitor = new SymbolVisitor();
         symbolVisitor.lineNo = lineNo;
         symbolVisitor.column = column;
+        symbolVisitor.argLen = args.length;
         symbolVisitor.visit(tree);
         if(!symbolVisitor.hasError){
             MyVisitor visitor = new MyVisitor(symbolVisitor.toRename, name);
