@@ -1,4 +1,8 @@
-int test(){}
 int main(){
-    int a = 1 + test + test;
+
+    int c[3][3][3];
+    int d[2][2];
+    c[1] = d; // valid
+    c[1][1] = d; // type 5
+    c[1][1] = d; // type 5
 }

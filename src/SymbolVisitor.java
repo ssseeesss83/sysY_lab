@@ -69,7 +69,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                     }
                     rType = Objects.requireNonNull(getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText())).getType();
                     if (lType instanceof ArrayType) {
-                        int lSize = ((ArrayType) lType).getDim() - ctx.lVal().exp().size() + 1; //需要的右值数组维数
+                        int lSize = ((ArrayType) lType).getDim() - ctx.lVal().exp().size(); //需要的右值数组维数
                         if (lSize == 1 && !(rType instanceof PrimaryType)
                                 || (lSize > 1 && rType instanceof ArrayType && lSize != ((ArrayType) rType).getDim())) {
                             System.err.println("Error type 5 at Line " + ctx.lVal().IDENT().getSymbol().getLine() + ":Type mismatched:" + ctx.lVal().IDENT().getText());
@@ -411,6 +411,7 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                 if(currentFuncRetType!=null && ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null) {
                     if(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp()==null){
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
+                        hasError = true;
                         return null;
                     }
                     BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
@@ -418,6 +419,16 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                     if (!retType.equals(currentFuncRetType)) {
                         hasError = true;
                         System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
+                    }
+                }else if(currentFuncRetType==null&& ctx.blockItem().size()>0 && ctx.blockItem(ctx.blockItem().size() - 1).stmt()!=null && ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()!=null){
+                    if(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp()!=null){
+                        BaseType retType = getExpType(ctx.blockItem(ctx.blockItem().size() - 1).stmt().exp());//最后一条blockitem
+                        if(retType instanceof UndefinedType) return null;
+                        if (retType!=null) {
+                            hasError = true;
+                            System.err.println("Error type 7 at Line " + (ctx.blockItem(ctx.blockItem().size() - 1).stmt().RETURN()).getSymbol().getLine() + ":Type mismatched for return type.");
+                        }
+                        return null;
                     }
                 }
             }
