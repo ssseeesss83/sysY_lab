@@ -24,10 +24,9 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
 
     private void outErr(String err){
 
-        if(argLen<4) {
-            System.err.println(err);
-            hasError = true;
-        }
+        System.err.println(err);
+        hasError = true;
+
     }
     //this is nullable.
     private Symbol getSymbol(String name){
@@ -409,9 +408,20 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
                     
                     break;
                 }
-                Symbol paramSymbol = new Symbol(paramName, new PrimaryType(), currentScope);
-                type.addParamType(new PrimaryType());
-                symbolTable.put(formatName(paramName), paramSymbol);
+                if(param.L_BRACKT().size()>0){
+                    ArrayType paramType = new ArrayType();
+                    for(int i = 0; i < param.L_BRACKT().size();i++){
+                        paramType.addDimension(0);
+                    }
+                    Symbol paramSymbol = new Symbol(paramName, paramType, currentScope);
+                    type.addParamType(paramType);
+                    symbolTable.put(formatName(paramName), paramSymbol);
+                }else{
+                    Symbol paramSymbol = new Symbol(paramName, new PrimaryType(), currentScope);
+                    type.addParamType(new PrimaryType());
+                    symbolTable.put(formatName(paramName), paramSymbol);
+                }
+
             }
         }
         Symbol symbol = new Symbol(name, type, currentScope.getParent());
