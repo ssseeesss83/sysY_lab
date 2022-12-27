@@ -23,9 +23,10 @@ public class SymbolVisitor extends SysYParserBaseVisitor<Void>{
     }
 
     private void outErr(String err){
-
-        System.err.println(err);
-        hasError = true;
+        if(err.charAt(11)!='5') {
+            System.err.println(err);
+            hasError = true;
+        }
 
     }
     //this is nullable.
