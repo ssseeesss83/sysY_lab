@@ -1,19 +1,21 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.llvm.LLVM.*;
+import static org.bytedeco.llvm.global.LLVM.*;
 
 import java.io.*;
 
 
 public class Main
 {
+    public static final BytePointer error = new BytePointer();
+
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
             System.err.println("input path is required");
         }
         String source = args[0];
-        int lineNo = Integer.parseInt(args[1]);
-        int column = Integer.parseInt(args[2]);
-        String name = args[3];
 //        int lineNo = 12;
 //        int column = 4;
 //        String name = "XXX";
@@ -28,16 +30,24 @@ public class Main
         sysYParser.removeErrorListeners();
         sysYParser.addErrorListener(myErrorListener);
         ParseTree tree = sysYParser.program();
+        LLVMVisitor llvmVisitor = new LLVMVisitor();
+        llvmVisitor.visit(tree);
 
-        SymbolVisitor symbolVisitor = new SymbolVisitor();
-        symbolVisitor.lineNo = lineNo;
-        symbolVisitor.column = column;
-        symbolVisitor.argLen = args.length;
-        symbolVisitor.visit(tree);
-        if(!symbolVisitor.hasError){
-            MyVisitor visitor = new MyVisitor(symbolVisitor.toRename, name);
-            visitor.visit(tree);
+
+        if (LLVMPrintModuleToFile(llvmVisitor.module, args[1], error) != 0) {
+            LLVMDisposeMessage(error);
         }
+
+
+//        SymbolVisitor symbolVisitor = new SymbolVisitor();
+//        symbolVisitor.lineNo = lineNo;
+//        symbolVisitor.column = column;
+//        symbolVisitor.argLen = args.length;
+//        symbolVisitor.visit(tree);
+//        if(!symbolVisitor.hasError){
+//            MyVisitor visitor = new MyVisitor(symbolVisitor.toRename, name);
+//            visitor.visit(tree);
+//        }
 //        System.out.println("...");
 //        if(!myErrorListener.hasError) {
 //            visitor.visit(tree);
