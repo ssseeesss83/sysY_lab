@@ -83,7 +83,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                 case "-":
                     return -getExpRef(lexp);
                 case "!":
-                    return getExpRef(lexp)==0?0:1;
+                    return getExpRef(lexp)==0?1:0;
                 case "+":
                     return getExpRef(lexp);
             }
