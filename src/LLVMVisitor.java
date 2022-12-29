@@ -87,7 +87,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     return getExpRef(lexp);
             }
         }else if(exp instanceof SysYParser.NumberExpContext){
-            return Integer.parseInt(((SysYParser.NumberExpContext) exp).number().getText());
+            return Integer.parseInt(Main.toDemical(((SysYParser.NumberExpContext) exp).number().getText()));
         }
         return 0;
     }
