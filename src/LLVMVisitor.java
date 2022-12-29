@@ -53,6 +53,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         SysYParser.ExpContext lexp;
         SysYParser.ExpContext rexp;
         String op;
+
         if(exp instanceof SysYParser.MulExpContext){
             lexp=((SysYParser.MulExpContext) exp).exp(0);
             rexp=((SysYParser.MulExpContext) exp).exp(1);
@@ -88,6 +89,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
         }else if(exp instanceof SysYParser.NumberExpContext){
             return Integer.parseInt(Main.toDemical(((SysYParser.NumberExpContext) exp).number().getText()));
+        }else if(exp instanceof SysYParser.ExpParenthesisContext){
+            return getExpRef(((SysYParser.ExpParenthesisContext) exp).exp());
         }
         return 0;
     }
