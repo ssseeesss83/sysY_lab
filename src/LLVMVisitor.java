@@ -139,13 +139,18 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     }
 
     private LLVMValueRef functionCallHandler(SysYParser.CallFuncExpContext exp) {
-        PointerPointer<LLVMValueRef> rParams = new PointerPointer<>(exp.funcRParams().param().size());
-        for(int i = 0; i < exp.funcRParams().param().size(); i++){
-            rParams.put(i,getExpVal(exp.funcRParams().param().get(i).exp()));
+        PointerPointer<LLVMValueRef> rParams = new PointerPointer<>();
+        int size = 0;
+        if(exp.funcRParams()!=null) {
+            rParams = new PointerPointer<>(exp.funcRParams().param().size());
+            for (int i = 0; i < exp.funcRParams().param().size(); i++) {
+                rParams.put(i, getExpVal(exp.funcRParams().param().get(i).exp()));
+            }
+            size = exp.funcRParams().param().size();
         }
         return LLVMBuildCall(builder,getSymbol(exp.IDENT().getText()),
                 rParams,
-                exp.funcRParams().param().size(),"");
+                size,"");
     }
 
     @Override

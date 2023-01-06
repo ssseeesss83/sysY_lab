@@ -1,4 +1,9 @@
+int f(){
+    return 3;
+}
+
 int main(){
+    f();
     int a[3] = {1,2};
     return a[1];
 }
