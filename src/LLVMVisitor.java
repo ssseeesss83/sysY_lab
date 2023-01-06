@@ -194,10 +194,11 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     SysYParser.ExpContext exp = blockItem.stmt().exp();
                     if(exp!=null){
                         LLVMBuildRet(builder,getExpVal(exp));
+                        return null;
                     }
                 }
             }
-            return null;
+            return LLVMBuildRetVoid(builder);
         }
         LocalScope scope = new LocalScope(localScopeCnt++);
         scope.setParent(currentScope);
