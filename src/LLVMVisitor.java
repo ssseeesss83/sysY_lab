@@ -96,16 +96,10 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         LLVMPositionBuilderAtEnd(builder,currentBlock);
         for(int j = 0; j < i; j++){
             String paramName = ctx.funcFParams().funcFParam().get(j).IDENT().getText();
-            LLVMValueRef param = LLVMBuildAlloca(builder, i32Type, formatName(paramName));
-            symbolTable.put(formatName(paramName),param);
+            LLVMValueRef pointer = LLVMBuildAlloca(builder, i32Type, formatName(paramName)+"_Pointer");
+            LLVMBuildStore(builder, LLVMGetParam(function, /* parameterIndex */j), pointer);
+            symbolTable.put(formatName(paramName),pointer);
         }
-        //通过如下语句在函数中加入基本块，一个函数可以加入多个基本块
-
-
-//        //函数返回指令
-//        SysYParser.BlockContext functionBlock = ctx.block();
-//        SysYParser.ExpContext exp = functionBlock.blockItem(0).stmt().exp();
-//        LLVMBuildRet(builder,getExpRef(exp));
 
         symbolTable.put(formatName(name, currentScope.getParent()),function);
 
