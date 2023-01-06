@@ -122,15 +122,16 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         super.visitStmt(ctx);
         if(ctx.lVal()!=null){
             LLVMValueRef lval = getSymbol(ctx.lVal().IDENT().getText());
+            System.out.println(LLVMTypeOf(lval)==i32Type);
             if(LLVMTypeOf(lval)==i32Type) {
                 LLVMBuildStore(builder,
                         getExpVal(ctx.exp()),
                         lval);
             }else{//array
-                LLVMBuildStore(builder,
-                        getExpVal(ctx.exp()),
-                        LLVMBuildGEP(builder,lval, new PointerPointer<>(zero, getExpVal(ctx.lVal().exp(0))),2,"")
-                );
+//                LLVMBuildStore(builder,
+//                        getExpVal(ctx.exp()),
+//                        LLVMBuildGEP(builder,lval, new PointerPointer<>(zero, getExpVal(ctx.lVal().exp(0))),2,"array_pointer")
+//                );
             }
         }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext){
             SysYParser.ExpContext exp = ctx.exp();
@@ -151,13 +152,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         }
         return LLVMBuildCall(builder,getSymbol(exp.IDENT().getText()),
                 rParams,
-                size,"");
-    }
-
-    @Override
-    public LLVMValueRef visitDecl(SysYParser.DeclContext ctx) {
-
-        return super.visitDecl(ctx);
+                size,"call_function");
     }
 
     @Override
@@ -298,12 +293,12 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                         //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).exp()).number().INTEGR_CONST().getText());
                         LLVMBuildStore(builder,
                                 getExpVal(initValContexts.get(i).exp()),
-                                LLVMBuildGEP(builder, array, indices, 2, "")
+                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
                                 );
                     }else{
                         LLVMBuildStore(builder,
                                 zero,
-                                LLVMBuildGEP(builder, array, indices, 2, "")
+                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
                         );
                     }
             }
@@ -337,12 +332,12 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).constExp().exp()).number().INTEGR_CONST().getText());
                     LLVMBuildStore(builder,
                             getExpVal(initValContexts.get(i).constExp().exp()),
-                            LLVMBuildGEP(builder, array, indices, 2, "")
+                            LLVMBuildGEP(builder, array, indices, 2, "GEP_")
                     );
                 }else{
                     LLVMBuildStore(builder,
                             zero,
-                            LLVMBuildGEP(builder, array, indices, 2, "")
+                            LLVMBuildGEP(builder, array, indices, 2, "GEP_")
                     );
                 }
             }
