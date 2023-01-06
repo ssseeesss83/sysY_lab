@@ -123,15 +123,21 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         if(ctx.lVal()!=null){
             LLVMValueRef lval = getSymbol(ctx.lVal().IDENT().getText());
             System.out.println(LLVMTypeOf(lval)==i32Type);
-            if(true||LLVMTypeOf(lval)==i32Type) {
+            if(LLVMTypeOf(lval)==i32Type) {
                 LLVMBuildStore(builder,
                         getExpVal(ctx.exp()),
                         lval);
             }else{//array
-                LLVMBuildStore(builder,
-                        getExpVal(ctx.exp()),
-                        LLVMBuildGEP(builder,lval, new PointerPointer<>(zero, getExpVal(ctx.lVal().exp(0))),2,"array_pointer")
-                );
+                if(ctx.lVal().L_BRACKT().size()==0){
+                    LLVMBuildStore(builder,
+                            getExpVal(ctx.exp()),
+                            lval);
+                }else {
+                    LLVMBuildStore(builder,
+                            getExpVal(ctx.exp()),
+                            LLVMBuildGEP(builder, lval, new PointerPointer<>(zero, getExpVal(ctx.lVal().exp(0))), 2, "array_pointer")
+                    );
+                }
             }
         }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext){
             SysYParser.ExpContext exp = ctx.exp();
