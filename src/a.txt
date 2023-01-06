@@ -1,3 +1,6 @@
-int f(int i){
-    return i;
+int main(){
+    int a = 1;
+    int array[5] = {1, 2, 3};
+    array[3] = a;
+    return 1;
 }

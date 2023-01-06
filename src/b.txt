@@ -1,10 +1,23 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-define i32 @f(i32 %0) {
-fEntry:
-  %FunctionScope_f_iPointer = alloca i32, align 4
-  store i32 %0, i32* %FunctionScope_f_iPointer, align 4
-  %1 = load i32, i32* %FunctionScope_f_iPointer, align 4
-  ret i32 %1
+define i32 @main() {
+mainEntry:
+  %FunctionScope_main_a = alloca i32, align 4
+  store i32 1, i32* %FunctionScope_main_a, align 4
+  %FunctionScope_main_array = alloca [5 x i32], align 4
+  %0 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 0
+  store i32 1, i32* %0, align 4
+  %1 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 1
+  store i32 2, i32* %1, align 4
+  %2 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 2
+  store i32 3, i32* %2, align 4
+  %3 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 3
+  store i32 0, i32* %3, align 4
+  %4 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 4
+  store i32 0, i32* %4, align 4
+  %5 = load i32, i32* %FunctionScope_main_a, align 4
+  %6 = getelementptr [5 x i32], [5 x i32]* %FunctionScope_main_array, i32 0, i32 3
+  store i32 %5, i32* %6, align 4
+  ret i32 1
 }
