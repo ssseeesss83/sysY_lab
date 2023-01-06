@@ -277,11 +277,13 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         if(constExpContexts.size()==0) {
             type = i32Type;
             ref = LLVMBuildAlloca(builder,i32Type,formatName(name));
-            if(initVal.initVal().size()!=0 && initVal.initVal().get(0).exp()!=null){
-                //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.initVal().get(0).exp()).number().INTEGR_CONST().getText());
-                LLVMBuildStore(builder, getExpVal(initVal.initVal().get(0).exp()), ref);
-            }else if(initVal.exp()!=null){
-                LLVMBuildStore(builder, getExpVal(initVal.exp()), ref);
+            if(initVal!=null) {
+                if (initVal.initVal().size() != 0 && initVal.initVal().get(0).exp() != null) {
+                    //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.initVal().get(0).exp()).number().INTEGR_CONST().getText());
+                    LLVMBuildStore(builder, getExpVal(initVal.initVal().get(0).exp()), ref);
+                } else if (initVal.exp() != null) {
+                    LLVMBuildStore(builder, getExpVal(initVal.exp()), ref);
+                }
             }
         }else{
             int size = Integer.parseInt (((SysYParser.NumberExpContext) constExpContexts.get(0).exp()).number().INTEGR_CONST().getText());
@@ -314,11 +316,13 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         if(constExpContexts.size()==0) {
             type = i32Type;
             ref = LLVMBuildAlloca(builder,i32Type,formatName(name));
-            if(initVal.constInitVal().size()!=0&&initVal.constInitVal().get(0).constExp().exp()!=null){
-                //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.constInitVal().get(0).constExp().exp()).number().INTEGR_CONST().getText());
-                LLVMBuildStore(builder, getExpVal(initVal.constInitVal().get(0).constExp().exp()), ref);
-            }else if(initVal.constExp()!=null){
-                LLVMBuildStore(builder, getExpVal(initVal.constExp().exp()), ref);
+            if(initVal!=null) {
+                if (initVal.constInitVal().size() != 0 && initVal.constInitVal().get(0).constExp().exp() != null) {
+                    //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.constInitVal().get(0).constExp().exp()).number().INTEGR_CONST().getText());
+                    LLVMBuildStore(builder, getExpVal(initVal.constInitVal().get(0).constExp().exp()), ref);
+                } else if (initVal.constExp() != null) {
+                    LLVMBuildStore(builder, getExpVal(initVal.constExp().exp()), ref);
+                }
             }
         }else{
             int size = Integer.parseInt (((SysYParser.NumberExpContext) constExpContexts.get(0).exp()).number().INTEGR_CONST().getText());

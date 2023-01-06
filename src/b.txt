@@ -1,22 +1,17 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-define i32 @f() {
-fEntry:
-  ret i32 3
-}
-
 define i32 @main() {
 mainEntry:
-  %0 = call i32 @f()
+  %FunctionScope_main_b = alloca i32, align 4
   %FunctionScope_main_a = alloca [3 x i32], align 4
-  %1 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 0
-  store i32 1, i32* %1, align 4
-  %2 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 1
-  store i32 2, i32* %2, align 4
-  %3 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 2
-  store i32 0, i32* %3, align 4
-  %4 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 1
-  %5 = load i32, i32* %4, align 4
-  ret i32 %5
+  %0 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 0
+  store i32 1, i32* %0, align 4
+  %1 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 1
+  store i32 2, i32* %1, align 4
+  %2 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 2
+  store i32 0, i32* %2, align 4
+  %3 = getelementptr [3 x i32], [3 x i32]* %FunctionScope_main_a, i32 0, i32 1
+  %4 = load i32, i32* %3, align 4
+  ret i32 %4
 }
