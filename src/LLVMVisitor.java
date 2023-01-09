@@ -132,6 +132,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
                             lval);
+                    System.out.println(LLVMConstIntGetSExtValue(LLVMBuildLoad(builder,lval,"")));
                 }else {
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
