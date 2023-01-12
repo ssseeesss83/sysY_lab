@@ -380,7 +380,10 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
         }else{
             int size = Integer.parseInt (((SysYParser.NumberExpContext) constExpContexts.get(0).exp()).number().INTEGR_CONST().getText());
-            List<SysYParser.InitValContext> initValContexts = initVal.initVal();
+            List<SysYParser.InitValContext> initValContexts = new ArrayList<>();
+            if(initVal!=null) {
+                initValContexts = initVal.initVal();
+            }
             type = LLVMArrayType(i32Type, size);
             if(currentScope instanceof GlobalScope){
                 ref = LLVMAddGlobal(module, type, "global_array_");
