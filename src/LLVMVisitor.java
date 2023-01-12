@@ -12,6 +12,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     private int localScopeCnt;
     boolean isFunctionBlock = false; //用于遍历标志是否是函数的括号作用域
     LLVMBasicBlockRef currentBlock = null;
+    LLVMValueRef currentFunction = null;
+    LLVMBasicBlockRef currentEntry = null;
     boolean visitFunctionBlock = true;
     private Map<String, LLVMValueRef> symbolTable = new HashMap<>();
 
@@ -23,8 +25,11 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     //考虑到我们的语言中仅存在int一个基本类型，可以通过下面的语句为LLVM的int型重命名方便以后使用
     LLVMTypeRef i32Type = LLVMInt32Type();
     LLVMTypeRef voidType = LLVMVoidType();
+    LLVMTypeRef i1Type  = LLVMInt1Type();
     //创建一个常量,这里是常数0
     LLVMValueRef zero = LLVMConstInt(i32Type, 0, /* signExtend */ 0);
+    LLVMValueRef _true = LLVMConstInt(i32Type, 1, 0);
+    LLVMValueRef _false = LLVMConstInt(i32Type, 0, 0);
 
     LLVMValueRef result;
 
@@ -102,7 +107,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         }
 
         symbolTable.put(formatName(name, currentScope.getParent()),function);
-
+        currentFunction = function;
+        currentEntry = currentBlock;
         super.visitFuncDef(ctx);
 
         isFunctionBlock = false;
@@ -119,8 +125,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
 
     @Override
     public LLVMValueRef visitStmt(SysYParser.StmtContext ctx) {
-        super.visitStmt(ctx);
-        if(ctx.lVal()!=null){
+        if(ctx.lVal()!=null){//赋值语句
+            super.visitStmt(ctx);
             LLVMValueRef lval = getSymbol(ctx.lVal().IDENT().getText());
             System.out.println(LLVMTypeOf(lval)==i32Type);
             if(LLVMTypeOf(lval)==i32Type) {
@@ -132,7 +138,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
                             lval);
-                    System.out.println(LLVMConstIntGetSExtValue(LLVMBuildLoad(builder,lval,"")));
+                   // System.out.println(LLVMConstIntGetSExtValue(LLVMBuildLoad(builder,lval,"")));
                 }else {
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
@@ -140,12 +146,36 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     );
                 }
             }
-        }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext){
+        }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext){//函数调用语句
+            super.visitStmt(ctx);
             SysYParser.ExpContext exp = ctx.exp();
             return functionCallHandler((SysYParser.CallFuncExpContext) exp);
+        }else if(ctx.IF()!=null){//条件语句
+            LLVMValueRef cond =  getCond(ctx.cond());
+            //System.out.println(LLVMTypeOf(cond));
+            LLVMBasicBlockRef ifTrue = LLVMAppendBasicBlock(currentFunction,"if_true");
+            LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlock(currentFunction,"if_false");
+            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"entry");
+            LLVMBuildCondBr(builder, cond, ifTrue, ifFalse);
+            currentEntry = entry;
+            currentBlock = ifTrue;
+            LLVMPositionBuilderAtEnd(builder,ifTrue);
+            visitBlock(ctx.stmt(0).block());
+            LLVMBuildBr(builder,entry);
+            currentBlock = ifFalse;
+            LLVMPositionBuilderAtEnd(builder,ifFalse);
+            if(ctx.ELSE()!=null){
+                visitBlock(ctx.stmt(1).block());
+            }
+            LLVMBuildBr(builder,entry);
+            LLVMPositionBuilderAtEnd(builder,entry);
+
+
         }
         return null;
     }
+
+
 
     private LLVMValueRef functionCallHandler(SysYParser.CallFuncExpContext exp) {
         PointerPointer<LLVMValueRef> rParams = new PointerPointer<>();
@@ -175,6 +205,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     @Override
     public LLVMValueRef visitVarDecl(SysYParser.VarDeclContext ctx) {
         List<SysYParser.VarDefContext> varDefs = ctx.varDef();
+
         for (SysYParser.VarDefContext varDef:varDefs
         ) {
             declHandler(varDef.IDENT(), varDef.constExp(), varDef.initVal());
@@ -204,6 +235,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         LocalScope scope = new LocalScope(localScopeCnt++);
         scope.setParent(currentScope);
         currentScope = scope;
+      //  LLVMPositionBuilderAtEnd(builder,currentBlock);
         super.visitBlock(ctx);
         currentScope = currentScope.getParent();
         return null;
@@ -274,41 +306,113 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         }
         return zero;
     }
+
+    LLVMValueRef getCond(SysYParser.CondContext cond){
+        if(cond instanceof SysYParser.ExpCondContext){
+         //   System.out.println(((SysYParser.ExpCondContext) cond).exp().getText());
+            return getExpVal(((SysYParser.ExpCondContext) cond).exp());
+        }else if(cond instanceof SysYParser.LtCondContext){
+            switch (cond.getChild(1).getText()){
+                case "<":
+                    return LLVMBuildICmp(builder,LLVMIntSLT,
+                            getCond(((SysYParser.LtCondContext) cond).cond(0)),
+                            getCond(((SysYParser.LtCondContext) cond).cond(1)),"<");
+                case ">":
+                    return LLVMBuildICmp(builder,LLVMIntSGT,
+                            getCond(((SysYParser.LtCondContext) cond).cond(0)),
+                            getCond(((SysYParser.LtCondContext) cond).cond(1)),">");
+
+                case "<=":
+                    return LLVMBuildICmp(builder,LLVMIntSLE,
+                            getCond(((SysYParser.LtCondContext) cond).cond(0)),
+                            getCond(((SysYParser.LtCondContext) cond).cond(1)),"<=");
+
+                case ">=":
+                    return LLVMBuildICmp(builder,LLVMIntSGE,
+                            getCond(((SysYParser.LtCondContext) cond).cond(0)),
+                            getCond(((SysYParser.LtCondContext) cond).cond(1)),">=");
+            }
+        }else if(cond instanceof SysYParser.EqCondContext){
+            switch (cond.getChild(1).getText()){
+                case "==":
+                    return LLVMBuildICmp(builder,LLVMIntEQ,
+                            getCond(((SysYParser.EqCondContext) cond).cond(0)),
+                            getCond(((SysYParser.EqCondContext) cond).cond(1)),"==");
+                case "!=":
+                    return LLVMBuildICmp(builder,LLVMIntNE,
+                            getCond(((SysYParser.EqCondContext) cond).cond(0)),
+                            getCond(((SysYParser.EqCondContext) cond).cond(1)),"!=");
+            }
+        }else if(cond instanceof SysYParser.AndCondContext){
+            return LLVMBuildAnd(builder, getCond(((SysYParser.AndCondContext) cond).cond(0)),
+                    getCond(((SysYParser.AndCondContext) cond).cond(1)),"||");
+        }else if(cond instanceof SysYParser.OrCondContext){
+            return LLVMBuildOr(builder, getCond(((SysYParser.OrCondContext) cond).cond(0)),
+                    getCond(((SysYParser.OrCondContext) cond).cond(1)),"||");
+        }
+        return _true;
+    }
     private void declHandler(TerminalNode ident, List<SysYParser.ConstExpContext> constExpContexts, SysYParser.InitValContext initVal) {
         String name = ident.getText();
         LLVMTypeRef type;
         LLVMValueRef ref;
         if(constExpContexts.size()==0) {
             type = i32Type;
-            ref = LLVMBuildAlloca(builder,i32Type,formatName(name));
-            if(initVal!=null) {
+            if(currentScope instanceof GlobalScope){
+                ref = LLVMAddGlobal(module,i32Type,"global_");
+            }else {
+                ref = LLVMBuildAlloca(builder, i32Type, formatName(name));
+            }
+            if (initVal != null) {
                 if (initVal.initVal().size() != 0 && initVal.initVal().get(0).exp() != null) {
-                    //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.initVal().get(0).exp()).number().INTEGR_CONST().getText());
-                    LLVMBuildStore(builder, getExpVal(initVal.initVal().get(0).exp()), ref);
+                    if(currentScope instanceof GlobalScope){
+                        LLVMSetInitializer(ref,getExpVal(initVal.initVal().get(0).exp()));
+                    }else {
+                        LLVMBuildStore(builder, getExpVal(initVal.initVal().get(0).exp()), ref);
+                    }
                 } else if (initVal.exp() != null) {
-                    LLVMBuildStore(builder, getExpVal(initVal.exp()), ref);
+                    if(currentScope instanceof GlobalScope){
+                        LLVMSetInitializer(ref,getExpVal(initVal.exp()));
+                    }else {
+                        LLVMBuildStore(builder, getExpVal(initVal.exp()), ref);
+                    }
                 }
+            }else if(currentScope instanceof GlobalScope){
+                LLVMSetInitializer(ref,zero);//默认初始化为0
             }
         }else{
             int size = Integer.parseInt (((SysYParser.NumberExpContext) constExpContexts.get(0).exp()).number().INTEGR_CONST().getText());
             List<SysYParser.InitValContext> initValContexts = initVal.initVal();
             type = LLVMArrayType(i32Type, size);
-            LLVMValueRef array = LLVMBuildAlloca(builder, type, formatName(name));
-            ref = array;
-            for(int i = 0; i < size; i ++){
-                    PointerPointer<LLVMValueRef> indices = new PointerPointer<>(zero, LLVMConstInt(i32Type, i, 0));
+            if(currentScope instanceof GlobalScope){
+                ref = LLVMAddGlobal(module, type, "global_array_");
+                PointerPointer<LLVMValueRef> elements = new PointerPointer<>(size);
+                for(int i = 0; i < size; i ++){
                     if(i<initValContexts.size()) {
-                        //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).exp()).number().INTEGR_CONST().getText());
-                        LLVMBuildStore(builder,
-                                getExpVal(initValContexts.get(i).exp()),
-                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
-                                );
+                        elements.put(i,getExpVal(initValContexts.get(i).exp()));
                     }else{
-                        LLVMBuildStore(builder,
-                                zero,
-                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
-                        );
+                        elements.put(i,zero);
                     }
+                }
+                LLVMSetInitializer(ref,LLVMConstArray(i32Type,elements,size));
+            }else {
+                LLVMValueRef array = LLVMBuildAlloca(builder, type, formatName(name));
+                ref = array;
+                for(int i = 0; i < size; i ++){
+                        PointerPointer<LLVMValueRef> indices = new PointerPointer<>(zero, LLVMConstInt(i32Type, i, 0));
+                        if(i<initValContexts.size()) {
+                            //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).exp()).number().INTEGR_CONST().getText());
+                            LLVMBuildStore(builder,
+                                    getExpVal(initValContexts.get(i).exp()),
+                                    LLVMBuildGEP(builder, array, indices, 2, "GEP_")
+                                    );
+                        }else{
+                            LLVMBuildStore(builder,
+                                    zero,
+                                    LLVMBuildGEP(builder, array, indices, 2, "GEP_")
+                            );
+                        }
+                }
             }
         }
         symbolTable.put(formatName(name), ref);
@@ -319,34 +423,60 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         LLVMValueRef ref;
         if(constExpContexts.size()==0) {
             type = i32Type;
-            ref = LLVMBuildAlloca(builder,i32Type,formatName(name));
-            if(initVal!=null) {
-                if (initVal.constInitVal().size() != 0 && initVal.constInitVal().get(0).constExp().exp() != null) {
-                    //int init = Integer.parseInt(((SysYParser.NumberExpContext) initVal.constInitVal().get(0).constExp().exp()).number().INTEGR_CONST().getText());
-                    LLVMBuildStore(builder, getExpVal(initVal.constInitVal().get(0).constExp().exp()), ref);
-                } else if (initVal.constExp() != null) {
-                    LLVMBuildStore(builder, getExpVal(initVal.constExp().exp()), ref);
+            if(currentScope instanceof GlobalScope){
+                ref = LLVMAddGlobal(module,i32Type,"const_global_");
+            }else {
+                ref = LLVMBuildAlloca(builder, i32Type, formatName(name));
+            }
+            if (initVal != null) {
+                if (initVal.constInitVal().size() != 0 && initVal.constInitVal().get(0).constExp().exp()!= null) {
+                    if(currentScope instanceof GlobalScope){
+                        LLVMSetInitializer(ref,getExpVal(initVal.constInitVal().get(0).constExp().exp()));
+                    }else {
+                        LLVMBuildStore(builder, getExpVal(initVal.constInitVal().get(0).constExp().exp()), ref);
+                    }
+                } else if (initVal.constExp().exp() != null) {
+                    if(currentScope instanceof GlobalScope){
+                        LLVMSetInitializer(ref,getExpVal(initVal.constExp().exp()));
+                    }else {
+                        LLVMBuildStore(builder, getExpVal(initVal.constExp().exp()), ref);
+                    }
                 }
+            }else if(currentScope instanceof GlobalScope){
+                LLVMSetInitializer(ref,zero);//默认初始化为0
             }
         }else{
             int size = Integer.parseInt (((SysYParser.NumberExpContext) constExpContexts.get(0).exp()).number().INTEGR_CONST().getText());
             List<SysYParser.ConstInitValContext> initValContexts = initVal.constInitVal();
             type = LLVMArrayType(i32Type, size);
-            LLVMValueRef array = LLVMBuildAlloca(builder, type, formatName(name));
-            ref = array;
-            for(int i = 0; i < size; i ++){
-                PointerPointer<LLVMValueRef> indices = new PointerPointer<>(zero, LLVMConstInt(i32Type, i, 0));
-                if(i<initValContexts.size()) {
-                    //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).constExp().exp()).number().INTEGR_CONST().getText());
-                    LLVMBuildStore(builder,
-                            getExpVal(initValContexts.get(i).constExp().exp()),
-                            LLVMBuildGEP(builder, array, indices, 2, "GEP_")
-                    );
-                }else{
-                    LLVMBuildStore(builder,
-                            zero,
-                            LLVMBuildGEP(builder, array, indices, 2, "GEP_")
-                    );
+            if(currentScope instanceof GlobalScope){
+                ref = LLVMAddGlobal(module, type, "const_global_array_");
+                PointerPointer<LLVMValueRef> elements = new PointerPointer<>(size);
+                for(int i = 0; i < size; i ++){
+                    if(i<initValContexts.size()) {
+                        elements.put(i,getExpVal(initValContexts.get(i).constExp().exp()));
+                    }else{
+                        elements.put(i,zero);
+                    }
+                }
+                LLVMSetInitializer(ref,LLVMConstArray(i32Type,elements,size));
+            }else {
+                LLVMValueRef array = LLVMBuildAlloca(builder, type, formatName(name));
+                ref = array;
+                for(int i = 0; i < size; i ++){
+                    PointerPointer<LLVMValueRef> indices = new PointerPointer<>(zero, LLVMConstInt(i32Type, i, 0));
+                    if(i<initValContexts.size()) {
+                        //int init_i = Integer.parseInt(((SysYParser.NumberExpContext) initValContexts.get(i).exp()).number().INTEGR_CONST().getText());
+                        LLVMBuildStore(builder,
+                                getExpVal(initValContexts.get(i).constExp().exp()),
+                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
+                        );
+                    }else{
+                        LLVMBuildStore(builder,
+                                zero,
+                                LLVMBuildGEP(builder, array, indices, 2, "GEP_")
+                        );
+                    }
                 }
             }
         }
