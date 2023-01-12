@@ -303,7 +303,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     return getExpVal(lexp);
             }
         }else if(exp instanceof SysYParser.NumberExpContext){
-            return LLVMConstInt(i32Type, Integer.parseInt(((SysYParser.NumberExpContext) exp).number().getText()),0);
+            return LLVMConstInt(i32Type, Integer.parseInt(Main.toDemical(((SysYParser.NumberExpContext) exp).number().getText())),0);
         }else if(exp instanceof SysYParser.ExpParenthesisContext){
             return getExpVal(((SysYParser.ExpParenthesisContext) exp).exp());
         }else if(exp instanceof SysYParser.LvalExpContext){
