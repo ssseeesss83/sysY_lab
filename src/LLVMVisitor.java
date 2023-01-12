@@ -15,7 +15,6 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     LLVMBasicBlockRef currentBlock = null;
     LLVMValueRef currentFunction = null;
     LLVMBasicBlockRef currentEntry = null;
-    boolean visitFunctionBlock = true;
     private Map<String, LLVMValueRef> symbolTable = new HashMap<>();
 
 
@@ -81,6 +80,9 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         currentScope = scope;
         //生成返回值类型
         LLVMTypeRef returnType = ctx.funcType().getText().equals("void")?voidType:i32Type;
+        if(returnType.equals(voidType)){
+            retVoid = true;
+        }
         //参数类型
         PointerPointer<Pointer> argTypes;
         int i = 0; //argCount
@@ -178,6 +180,18 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
             LLVMBuildBr(builder,entry);
             LLVMPositionBuilderAtEnd(builder,entry);
+        }else if(ctx.RETURN()!=null){
+            SysYParser.ExpContext exp = ctx.exp();
+            if(exp!=null){
+                LLVMValueRef res = getExpVal(exp);
+                LLVMTypeRef t = LLVMTypeOf(res);
+                //System.out.println(LLVMTypeOf(res));
+                if(LLVMTypeOf(res).equals(i32Type)) {
+                    LLVMBuildRet(builder, res);
+                }else{
+                    LLVMBuildRetVoid(builder);
+                }
+            }
         }
         return null;
     }
@@ -227,31 +241,19 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             //选择要在哪个基本块后追加指令
             LLVMPositionBuilderAtEnd(builder, currentBlock);//后续生成的指令将追加在block1的后面
             super.visitBlock(ctx);
-            for (SysYParser.BlockItemContext blockItem: ctx.blockItem()
-                 ) {
-                if(blockItem.stmt()!=null && blockItem.stmt().RETURN()!=null) {
-                    SysYParser.ExpContext exp = blockItem.stmt().exp();
-                    if(exp!=null){
-//                        if(!(exp instanceof SysYParser.CallFuncExpContext)) {
-//                            LLVMBuildRet(builder, getExpVal(exp));
-//                        }else{
-//                            getExpVal(exp);
-//                            LLVMBuildRetVoid(builder);
-//                        }
-                        LLVMValueRef res = getExpVal(exp);
-                        LLVMTypeRef t = LLVMTypeOf(res);
-                        System.out.println(LLVMTypeOf(res));
-                        if(LLVMTypeOf(res).equals(i32Type)) {
-                            LLVMBuildRet(builder, res);
-                        }else{
-                            LLVMBuildRetVoid(builder);
-                        }
-                        return null;
-                    }
-                }
+//            for (SysYParser.BlockItemContext blockItem: ctx.blockItem()
+//                 ) {
+//                if(blockItem.stmt()!=null && blockItem.stmt().RETURN()!=null) {
+//                        return null;
+//                    }
+//              }
+//            return LLVMBuildRetVoid(builder);
+            if(retVoid){
+                retVoid = false;
+                return LLVMBuildRetVoid(builder);
             }
-            return LLVMBuildRetVoid(builder);
-        }
+            return null;
+          }
         LocalScope scope = new LocalScope(localScopeCnt++);
         scope.setParent(currentScope);
         currentScope = scope;
