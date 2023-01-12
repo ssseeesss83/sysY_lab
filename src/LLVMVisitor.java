@@ -313,15 +313,15 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             LLVMValueRef ref = getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText());
             LLVMValueRef val;
             if(LLVMTypeOf(ref).equals(i32Type)) {
-                val = LLVMBuildLoad(builder, ref, "");
+                val = LLVMBuildLoad(builder, ref, "val_"+((SysYParser.LvalExpContext) exp).lVal().IDENT().getText());
             }else{//arrayType
                 if(((SysYParser.LvalExpContext) exp).lVal().L_BRACKT().size()==0){
-                    val = LLVMBuildLoad(builder, ref, ""); //pointer
+                    val = LLVMBuildLoad(builder, ref, "array_pointer_"+((SysYParser.LvalExpContext) exp).lVal().IDENT().getText()); //pointer
                 }else{
                     LLVMValueRef index = getExpVal(((SysYParser.LvalExpContext) exp).lVal().exp().get(0));
                     val = LLVMBuildLoad(builder,
-                            LLVMBuildGEP(builder, ref, new PointerPointer<LLVMValueRef>(zero, index), 2, ""),
-                            "");
+                            LLVMBuildGEP(builder, ref, new PointerPointer<LLVMValueRef>(zero, index), 2, "GEP_"),
+                            "array_load_");
                 }
             }
             return val;
