@@ -160,12 +160,20 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             currentEntry = entry;
             currentBlock = ifTrue;
             LLVMPositionBuilderAtEnd(builder,ifTrue);
-            visitBlock(ctx.stmt(0).block());
+            if(ctx.stmt(0).block()!=null) {
+                visitBlock(ctx.stmt(0).block());
+            }else {
+                visitStmt(ctx.stmt(0));
+            }
             LLVMBuildBr(builder,entry);
             currentBlock = ifFalse;
             LLVMPositionBuilderAtEnd(builder,ifFalse);
             if(ctx.ELSE()!=null){
-                visitBlock(ctx.stmt(1).block());
+                if(ctx.stmt(1).block()!=null) {
+                    visitBlock(ctx.stmt(1).block());
+                }else {
+                    visitStmt(ctx.stmt(1));
+                }
             }
             LLVMBuildBr(builder,entry);
             LLVMPositionBuilderAtEnd(builder,entry);
