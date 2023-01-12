@@ -28,8 +28,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     LLVMTypeRef i1Type  = LLVMInt1Type();
     //创建一个常量,这里是常数0
     LLVMValueRef zero = LLVMConstInt(i32Type, 0, /* signExtend */ 0);
-    LLVMValueRef _true = LLVMConstInt(i32Type, 1, 0);
-    LLVMValueRef _false = LLVMConstInt(i32Type, 0, 0);
+    LLVMValueRef _true = LLVMConstInt(i1Type, 1, 0);
+    LLVMValueRef _false = LLVMConstInt(i1Type, 0, 0);
 
     LLVMValueRef result;
 
@@ -288,7 +288,9 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     return LLVMBuildNeg(builder, getExpVal(lexp),"temp");
                 case "!":
                     LLVMValueRef cmp = LLVMBuildICmp(builder, LLVMIntEQ, getExpVal(lexp), zero, "temp");
-                    return LLVMBuildSelect(builder, cmp, LLVMConstInt(LLVMInt32Type(), 1, 0), LLVMConstInt(LLVMInt32Type(), 0, 0),"temp");
+                    LLVMValueRef res = LLVMBuildXor(builder,cmp,_true,"temp");
+                    return LLVMBuildZExt(builder,res,i32Type,"i1_to_i32");
+                    //return LLVMBuildSelect(builder, cmp, LLVMConstInt(LLVMInt32Type(), 1, 0), LLVMConstInt(LLVMInt32Type(), 0, 0),"temp");
                 case "+":
                     return getExpVal(lexp);
             }

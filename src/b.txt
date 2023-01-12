@@ -3,17 +3,13 @@ source_filename = "moudle"
 
 @global_array_a = global [3 x i32] [i32 0, i32 1, i32 1]
 
-define i32 @f() {
-fEntry:
-  ret i32 1
-}
-
 define i32 @main() {
 mainEntry:
   %0 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
   %temp = icmp eq i32 %0, 0
-  %temp1 = select i1 %temp, i32 1, i32 0
-  store i32 %temp1, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
+  %temp1 = xor i1 %temp, true
+  %i1_to_i32 = zext i1 %temp1 to i32
+  store i32 %i1_to_i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
   %1 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
   %cond = icmp ne i32 %1, 0
   br i1 %cond, label %if_true, label %if_false
@@ -26,6 +22,6 @@ if_false:                                         ; preds = %mainEntry
   br label %entry
 
 entry:                                            ; preds = %if_false, %if_true
-  %2 = call i32 @f()
+  %2 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 1), align 4
   ret i32 %2
 }
