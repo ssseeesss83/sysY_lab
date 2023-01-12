@@ -295,7 +295,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                 case "-":
                     return LLVMBuildNeg(builder, getExpVal(lexp),"temp");
                 case "!":
-                    LLVMValueRef cmp = LLVMBuildICmp(builder, LLVMIntEQ, getExpVal(lexp), zero, "temp");
+                    LLVMValueRef cmp = LLVMBuildICmp(builder, LLVMIntNE, getExpVal(lexp), zero, "temp");
                     LLVMValueRef res = LLVMBuildXor(builder,cmp,_true,"temp");
                     return LLVMBuildZExt(builder,res,i32Type,"i1_to_i32");
                     //return LLVMBuildSelect(builder, cmp, LLVMConstInt(LLVMInt32Type(), 1, 0), LLVMConstInt(LLVMInt32Type(), 0, 0),"temp");
@@ -372,7 +372,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
         }else if(cond instanceof SysYParser.AndCondContext){
             return LLVMBuildAnd(builder, getCond(((SysYParser.AndCondContext) cond).cond(0)),
-                    getCond(((SysYParser.AndCondContext) cond).cond(1)),"||");
+                    getCond(((SysYParser.AndCondContext) cond).cond(1)),"&&");
         }else if(cond instanceof SysYParser.OrCondContext){
             return LLVMBuildOr(builder, getCond(((SysYParser.OrCondContext) cond).cond(0)),
                     getCond(((SysYParser.OrCondContext) cond).cond(1)),"||");
