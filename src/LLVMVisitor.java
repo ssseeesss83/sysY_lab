@@ -128,7 +128,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         if(ctx.lVal()!=null){//赋值语句
             super.visitStmt(ctx);
             LLVMValueRef lval = getSymbol(ctx.lVal().IDENT().getText());
-            System.out.println(LLVMTypeOf(lval)==i32Type);
+            //System.out.println(LLVMTypeOf(lval)==i32Type);
             if(LLVMTypeOf(lval)==i32Type) {
                 LLVMBuildStore(builder,
                         getExpVal(ctx.exp()),
@@ -151,24 +151,24 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             SysYParser.ExpContext exp = ctx.exp();
             return functionCallHandler((SysYParser.CallFuncExpContext) exp);
         }else if(ctx.IF()!=null){//条件语句
-//            LLVMValueRef cond =  getCond(ctx.cond());
-//            //System.out.println(LLVMTypeOf(cond));
-//            LLVMBasicBlockRef ifTrue = LLVMAppendBasicBlock(currentFunction,"if_true");
-//            LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlock(currentFunction,"if_false");
-//            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"entry");
-//            LLVMBuildCondBr(builder, cond, ifTrue, ifFalse);
-//            currentEntry = entry;
-//            currentBlock = ifTrue;
-//            LLVMPositionBuilderAtEnd(builder,ifTrue);
-//            visitBlock(ctx.stmt(0).block());
-//            LLVMBuildBr(builder,entry);
-//            currentBlock = ifFalse;
-//            LLVMPositionBuilderAtEnd(builder,ifFalse);
-//            if(ctx.ELSE()!=null){
-//                visitBlock(ctx.stmt(1).block());
-//            }
-//            LLVMBuildBr(builder,entry);
-//            LLVMPositionBuilderAtEnd(builder,entry);
+            LLVMValueRef cond = LLVMBuildICmp(builder,LLVMIntNE, getCond(ctx.cond()),zero,"cond");
+            //System.out.println(LLVMTypeOf(cond));
+            LLVMBasicBlockRef ifTrue = LLVMAppendBasicBlock(currentFunction,"if_true");
+            LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlock(currentFunction,"if_false");
+            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"entry");
+            LLVMBuildCondBr(builder, cond, ifTrue, ifFalse);
+            currentEntry = entry;
+            currentBlock = ifTrue;
+            LLVMPositionBuilderAtEnd(builder,ifTrue);
+            visitBlock(ctx.stmt(0).block());
+            LLVMBuildBr(builder,entry);
+            currentBlock = ifFalse;
+            LLVMPositionBuilderAtEnd(builder,ifFalse);
+            if(ctx.ELSE()!=null){
+                visitBlock(ctx.stmt(1).block());
+            }
+            LLVMBuildBr(builder,entry);
+            LLVMPositionBuilderAtEnd(builder,entry);
         }
         return null;
     }
@@ -311,40 +311,45 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     }
 
     LLVMValueRef getCond(SysYParser.CondContext cond){
+        LLVMValueRef res = zero;
         if(cond instanceof SysYParser.ExpCondContext){
          //   System.out.println(((SysYParser.ExpCondContext) cond).exp().getText());
             return getExpVal(((SysYParser.ExpCondContext) cond).exp());
         }else if(cond instanceof SysYParser.LtCondContext){
             switch (cond.getChild(1).getText()){
                 case "<":
-                    return LLVMBuildICmp(builder,LLVMIntSLT,
+                    res = LLVMBuildICmp(builder,LLVMIntSLT,
                             getCond(((SysYParser.LtCondContext) cond).cond(0)),
                             getCond(((SysYParser.LtCondContext) cond).cond(1)),"<");
+                    break;
                 case ">":
-                    return LLVMBuildICmp(builder,LLVMIntSGT,
+                    res = LLVMBuildICmp(builder,LLVMIntSGT,
                             getCond(((SysYParser.LtCondContext) cond).cond(0)),
                             getCond(((SysYParser.LtCondContext) cond).cond(1)),">");
-
+                    break;
                 case "<=":
-                    return LLVMBuildICmp(builder,LLVMIntSLE,
+                    res = LLVMBuildICmp(builder,LLVMIntSLE,
                             getCond(((SysYParser.LtCondContext) cond).cond(0)),
                             getCond(((SysYParser.LtCondContext) cond).cond(1)),"<=");
-
+                    break;
                 case ">=":
-                    return LLVMBuildICmp(builder,LLVMIntSGE,
+                    res = LLVMBuildICmp(builder,LLVMIntSGE,
                             getCond(((SysYParser.LtCondContext) cond).cond(0)),
                             getCond(((SysYParser.LtCondContext) cond).cond(1)),">=");
+                    break;
             }
         }else if(cond instanceof SysYParser.EqCondContext){
             switch (cond.getChild(1).getText()){
                 case "==":
-                    return LLVMBuildICmp(builder,LLVMIntEQ,
+                    res = LLVMBuildICmp(builder,LLVMIntEQ,
                             getCond(((SysYParser.EqCondContext) cond).cond(0)),
                             getCond(((SysYParser.EqCondContext) cond).cond(1)),"==");
+                    break;
                 case "!=":
-                    return LLVMBuildICmp(builder,LLVMIntNE,
+                    res = LLVMBuildICmp(builder,LLVMIntNE,
                             getCond(((SysYParser.EqCondContext) cond).cond(0)),
                             getCond(((SysYParser.EqCondContext) cond).cond(1)),"!=");
+                    break;
             }
         }else if(cond instanceof SysYParser.AndCondContext){
             return LLVMBuildAnd(builder, getCond(((SysYParser.AndCondContext) cond).cond(0)),
@@ -353,7 +358,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             return LLVMBuildOr(builder, getCond(((SysYParser.OrCondContext) cond).cond(0)),
                     getCond(((SysYParser.OrCondContext) cond).cond(1)),"||");
         }
-        return _true;
+        return LLVMBuildZExt(builder,res, i32Type,"i1_to_i32");
     }
     private void declHandler(TerminalNode ident, List<SysYParser.ConstExpContext> constExpContexts, SysYParser.InitValContext initVal) {
         String name = ident.getText();

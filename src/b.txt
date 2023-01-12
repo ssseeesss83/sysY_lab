@@ -1,13 +1,25 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-define void @a() {
-aEntry:
-  ret void
-}
+@global_a = global i32 10
 
-define void @b() {
-bEntry:
-  call void @a()
-  ret void
+define i32 @main() {
+mainEntry:
+  %0 = load i32, i32* @global_a, align 4
+  %"!=" = icmp ne i32 %0, 10
+  %i1_to_i32 = zext i1 %"!=" to i32
+  %cond = icmp ne i32 %i1_to_i32, 0
+  br i1 %cond, label %if_true, label %if_false
+
+if_true:                                          ; preds = %mainEntry
+  store i32 2, i32* @global_a, align 4
+  br label %entry
+
+if_false:                                         ; preds = %mainEntry
+  store i32 20, i32* @global_a, align 4
+  br label %entry
+
+entry:                                            ; preds = %if_false, %if_true
+  %1 = load i32, i32* @global_a, align 4
+  ret i32 %1
 }
