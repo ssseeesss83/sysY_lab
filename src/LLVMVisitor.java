@@ -231,12 +231,13 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                 if(blockItem.stmt()!=null && blockItem.stmt().RETURN()!=null) {
                     SysYParser.ExpContext exp = blockItem.stmt().exp();
                     if(exp!=null){
-                        if(!(exp instanceof SysYParser.CallFuncExpContext)) {
-                            LLVMBuildRet(builder, getExpVal(exp));
-                        }else{
-                            getExpVal(exp);
-                            LLVMBuildRetVoid(builder);
-                        }
+//                        if(!(exp instanceof SysYParser.CallFuncExpContext)) {
+//                            LLVMBuildRet(builder, getExpVal(exp));
+//                        }else{
+//                            getExpVal(exp);
+//                            LLVMBuildRetVoid(builder);
+//                        }
+                        LLVMBuildRet(builder, getExpVal(exp));
                         return null;
                     }
                 }
