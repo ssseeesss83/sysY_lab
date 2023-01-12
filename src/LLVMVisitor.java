@@ -10,6 +10,7 @@ import static org.bytedeco.llvm.global.LLVM.*;
 public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     private BaseScope currentScope;
     private int localScopeCnt;
+    private boolean retVoid =false;
     boolean isFunctionBlock = false; //用于遍历标志是否是函数的括号作用域
     LLVMBasicBlockRef currentBlock = null;
     LLVMValueRef currentFunction = null;
@@ -129,7 +130,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             super.visitStmt(ctx);
             LLVMValueRef lval = getSymbol(ctx.lVal().IDENT().getText());
             //System.out.println(LLVMTypeOf(lval)==i32Type);
-            if(LLVMTypeOf(lval)==i32Type) {
+            if(LLVMTypeOf(lval).equals(i32Type)) {
                 LLVMBuildStore(builder,
                         getExpVal(ctx.exp()),
                         lval);
@@ -237,7 +238,14 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
 //                            getExpVal(exp);
 //                            LLVMBuildRetVoid(builder);
 //                        }
-                        LLVMBuildRet(builder, getExpVal(exp));
+                        LLVMValueRef res = getExpVal(exp);
+                        LLVMTypeRef t = LLVMTypeOf(res);
+                        System.out.println(LLVMTypeOf(res));
+                        if(LLVMTypeOf(res).equals(i32Type)) {
+                            LLVMBuildRet(builder, res);
+                        }else{
+                            LLVMBuildRetVoid(builder);
+                        }
                         return null;
                     }
                 }
@@ -302,7 +310,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             //return LLVMBuildLoad(builder, ref, "");
             LLVMValueRef ref = getSymbol(((SysYParser.LvalExpContext) exp).lVal().IDENT().getText());
             LLVMValueRef val;
-            if(LLVMTypeOf(ref)==i32Type) {
+            if(LLVMTypeOf(ref).equals(i32Type)) {
                 val = LLVMBuildLoad(builder, ref, "");
             }else{//arrayType
                 if(((SysYParser.LvalExpContext) exp).lVal().L_BRACKT().size()==0){

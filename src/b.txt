@@ -1,27 +1,20 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-@global_array_a = global [3 x i32] [i32 0, i32 1, i32 1]
+@global_a = global i32 10
 
-define i32 @main() {
+define i32 @f() {
+fEntry:
+  ret void
+}
+
+define void @g() {
+gEntry:
+  ret void
+}
+
+define void @main() {
 mainEntry:
-  %0 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %temp = icmp eq i32 %0, 0
-  %temp1 = xor i1 %temp, true
-  %i1_to_i32 = zext i1 %temp1 to i32
-  store i32 %i1_to_i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %1 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %cond = icmp ne i32 %1, 0
-  br i1 %cond, label %if_true, label %if_false
-
-if_true:                                          ; preds = %mainEntry
-  store i32 2, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 1), align 4
-  br label %entry
-
-if_false:                                         ; preds = %mainEntry
-  br label %entry
-
-entry:                                            ; preds = %if_false, %if_true
-  %2 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 1), align 4
-  ret i32 %2
+  call void @g()
+  ret void
 }
