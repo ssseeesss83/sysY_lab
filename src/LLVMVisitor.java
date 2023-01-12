@@ -151,26 +151,24 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             SysYParser.ExpContext exp = ctx.exp();
             return functionCallHandler((SysYParser.CallFuncExpContext) exp);
         }else if(ctx.IF()!=null){//条件语句
-            LLVMValueRef cond =  getCond(ctx.cond());
-            //System.out.println(LLVMTypeOf(cond));
-            LLVMBasicBlockRef ifTrue = LLVMAppendBasicBlock(currentFunction,"if_true");
-            LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlock(currentFunction,"if_false");
-            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"entry");
-            LLVMBuildCondBr(builder, cond, ifTrue, ifFalse);
-            currentEntry = entry;
-            currentBlock = ifTrue;
-            LLVMPositionBuilderAtEnd(builder,ifTrue);
-            visitBlock(ctx.stmt(0).block());
-            LLVMBuildBr(builder,entry);
-            currentBlock = ifFalse;
-            LLVMPositionBuilderAtEnd(builder,ifFalse);
-            if(ctx.ELSE()!=null){
-                visitBlock(ctx.stmt(1).block());
-            }
-            LLVMBuildBr(builder,entry);
-            LLVMPositionBuilderAtEnd(builder,entry);
-
-
+//            LLVMValueRef cond =  getCond(ctx.cond());
+//            //System.out.println(LLVMTypeOf(cond));
+//            LLVMBasicBlockRef ifTrue = LLVMAppendBasicBlock(currentFunction,"if_true");
+//            LLVMBasicBlockRef ifFalse = LLVMAppendBasicBlock(currentFunction,"if_false");
+//            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"entry");
+//            LLVMBuildCondBr(builder, cond, ifTrue, ifFalse);
+//            currentEntry = entry;
+//            currentBlock = ifTrue;
+//            LLVMPositionBuilderAtEnd(builder,ifTrue);
+//            visitBlock(ctx.stmt(0).block());
+//            LLVMBuildBr(builder,entry);
+//            currentBlock = ifFalse;
+//            LLVMPositionBuilderAtEnd(builder,ifFalse);
+//            if(ctx.ELSE()!=null){
+//                visitBlock(ctx.stmt(1).block());
+//            }
+//            LLVMBuildBr(builder,entry);
+//            LLVMPositionBuilderAtEnd(builder,entry);
         }
         return null;
     }

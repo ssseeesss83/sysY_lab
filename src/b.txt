@@ -1,10 +1,10 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-@global_ = global i32 10
+@const_global_ = global i32 10
 
 define i32 @main() {
 mainEntry:
-  store i32 2, i32* @global_, align 4
+  store i32 2, i32* @const_global_, align 4
   ret void
 }
