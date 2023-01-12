@@ -1,10 +1,13 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-@global_array_ = global [2 x i32] zeroinitializer
+define void @a() {
+aEntry:
+  ret void
+}
 
-define i32 @main() {
-mainEntry:
-  store i32 2, [2 x i32]* @global_array_, align 4
+define void @b() {
+bEntry:
+  call void @a()
   ret void
 }

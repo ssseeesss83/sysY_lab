@@ -146,7 +146,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     );
                 }
             }
-        }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext){//函数调用语句
+        }else if(ctx.exp() instanceof SysYParser.CallFuncExpContext && ctx.RETURN()==null){//函数调用语句
             super.visitStmt(ctx);
             SysYParser.ExpContext exp = ctx.exp();
             return functionCallHandler((SysYParser.CallFuncExpContext) exp);
@@ -223,7 +223,11 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                 if(blockItem.stmt()!=null && blockItem.stmt().RETURN()!=null) {
                     SysYParser.ExpContext exp = blockItem.stmt().exp();
                     if(exp!=null){
-                        LLVMBuildRet(builder,getExpVal(exp));
+                        if(LLVMTypeOf(getExpVal(exp)) == i32Type) {
+                            LLVMBuildRet(builder, getExpVal(exp));
+                        }else{
+                            LLVMBuildRetVoid(builder);
+                        }
                         return null;
                     }
                 }
@@ -357,7 +361,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         if(constExpContexts.size()==0) {
             type = i32Type;
             if(currentScope instanceof GlobalScope){
-                ref = LLVMAddGlobal(module,i32Type,"global_");
+                ref = LLVMAddGlobal(module,i32Type,"global_"+name);
             }else {
                 ref = LLVMBuildAlloca(builder, i32Type, formatName(name));
             }
@@ -386,7 +390,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
             type = LLVMArrayType(i32Type, size);
             if(currentScope instanceof GlobalScope){
-                ref = LLVMAddGlobal(module, type, "global_array_");
+                ref = LLVMAddGlobal(module, type, "global_array_"+name);
                 PointerPointer<LLVMValueRef> elements = new PointerPointer<>(size);
                 for(int i = 0; i < size; i ++){
                     if(i<initValContexts.size()) {
