@@ -236,7 +236,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
         }
         return LLVMBuildCall(builder,getSymbol(exp.IDENT().getText()),
                 rParams,
-                size,"");
+                size,"call");
     }
 
     @Override
