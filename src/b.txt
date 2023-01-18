@@ -3,43 +3,100 @@ source_filename = "moudle"
 
 define i32 @main() {
 mainEntry:
+  %FunctionScope_main_sum = alloca i32, align 4
+  store i32 0, i32* %FunctionScope_main_sum, align 4
   %FunctionScope_main_a = alloca i32, align 4
   store i32 0, i32* %FunctionScope_main_a, align 4
-  %FunctionScope_main_count = alloca i32, align 4
-  store i32 0, i32* %FunctionScope_main_count, align 4
   br label %while_condition
 
 while_body:                                       ; preds = %while_condition
-  %array_pointer_a1 = load i32, i32* %FunctionScope_main_a, align 4
-  %temp = sub i32 %array_pointer_a1, 1
-  store i32 %temp, i32* %FunctionScope_main_a, align 4
-  %array_pointer_count = load i32, i32* %FunctionScope_main_count, align 4
-  %temp2 = add i32 %array_pointer_count, 1
-  store i32 %temp2, i32* %FunctionScope_main_count, align 4
-  %array_pointer_a3 = load i32, i32* %FunctionScope_main_a, align 4
-  %"<" = icmp slt i32 %array_pointer_a3, -20
-  %i1_to_i324 = zext i1 %"<" to i32
-  %cond5 = icmp ne i32 %i1_to_i324, 0
-  br i1 %cond5, label %if_true, label %if_false
+  br label %while_condition2
 
-while_condition:                                  ; preds = %entry, %mainEntry
-  %array_pointer_a = load i32, i32* %FunctionScope_main_a, align 4
-  %"<=" = icmp sle i32 %array_pointer_a, 0
-  %i1_to_i32 = zext i1 %"<=" to i32
+while_condition:                                  ; preds = %while_entry6, %mainEntry
+  %pointer_sum = load i32, i32* %FunctionScope_main_sum, align 4
+  %"<" = icmp slt i32 %pointer_sum, 5
+  %i1_to_i32 = zext i1 %"<" to i32
   %cond = icmp ne i32 %i1_to_i32, 0
   br i1 %cond, label %while_body, label %while_entry
 
-while_entry:                                      ; preds = %if_true, %while_condition
-  %array_pointer_count6 = load i32, i32* %FunctionScope_main_count, align 4
-  ret i32 %array_pointer_count6
+while_entry:                                      ; preds = %while_entry6, %while_condition
+  %pointer_sum33 = load i32, i32* %FunctionScope_main_sum, align 4
+  ret i32 %pointer_sum33
 
-if_true:                                          ; preds = %while_body
+while_body1:                                      ; preds = %while_condition2
+  br label %while_entry3
+  br label %while_condition2
+
+while_condition2:                                 ; preds = %while_body1, %while_body
+  br i1 true, label %while_body1, label %while_entry3
+
+while_entry3:                                     ; preds = %while_body1, %while_condition2
+  br label %while_condition5
+
+while_body4:                                      ; preds = %while_condition5
+  br label %while_condition12
+
+while_condition5:                                 ; preds = %entry32, %if_true30, %while_entry3
+  %pointer_sum7 = load i32, i32* %FunctionScope_main_sum, align 4
+  %"<8" = icmp slt i32 %pointer_sum7, 4
+  %i1_to_i329 = zext i1 %"<8" to i32
+  %cond10 = icmp ne i32 %i1_to_i329, 0
+  br i1 %cond10, label %while_body4, label %while_entry6
+
+while_entry6:                                     ; preds = %while_condition5
   br label %while_entry
+  br label %while_condition
+
+while_body11:                                     ; preds = %while_condition12
+  %pointer_sum18 = load i32, i32* %FunctionScope_main_sum, align 4
+  %temp = add i32 %pointer_sum18, 1
+  store i32 %temp, i32* %FunctionScope_main_sum, align 4
+  %pointer_a = load i32, i32* %FunctionScope_main_a, align 4
+  %temp19 = add i32 %pointer_a, 1
+  store i32 %temp19, i32* %FunctionScope_main_a, align 4
+  %pointer_a20 = load i32, i32* %FunctionScope_main_a, align 4
+  %"==" = icmp eq i32 %pointer_a20, 2
+  %i1_to_i3221 = zext i1 %"==" to i32
+  %cond22 = icmp ne i32 %i1_to_i3221, 0
+  br i1 %cond22, label %if_true, label %if_false
+
+while_condition12:                                ; preds = %entry, %while_body4
+  %pointer_sum14 = load i32, i32* %FunctionScope_main_sum, align 4
+  %"<15" = icmp slt i32 %pointer_sum14, 3
+  %i1_to_i3216 = zext i1 %"<15" to i32
+  %cond17 = icmp ne i32 %i1_to_i3216, 0
+  br i1 %cond17, label %while_body11, label %while_entry13
+
+while_entry13:                                    ; preds = %if_true, %while_condition12
+  %pointer_sum23 = load i32, i32* %FunctionScope_main_sum, align 4
+  %temp24 = add i32 %pointer_sum23, 1
+  store i32 %temp24, i32* %FunctionScope_main_sum, align 4
+  %pointer_a25 = load i32, i32* %FunctionScope_main_a, align 4
+  %temp26 = add i32 %pointer_a25, 1
+  store i32 %temp26, i32* %FunctionScope_main_a, align 4
+  %pointer_a27 = load i32, i32* %FunctionScope_main_a, align 4
+  %">" = icmp sgt i32 %pointer_a27, 1
+  %i1_to_i3228 = zext i1 %">" to i32
+  %cond29 = icmp ne i32 %i1_to_i3228, 0
+  br i1 %cond29, label %if_true30, label %if_false31
+
+if_true:                                          ; preds = %while_body11
+  br label %while_entry13
   br label %entry
 
-if_false:                                         ; preds = %while_body
+if_false:                                         ; preds = %while_body11
   br label %entry
 
 entry:                                            ; preds = %if_false, %if_true
-  br label %while_condition
+  br label %while_condition12
+
+if_true30:                                        ; preds = %while_entry13
+  br label %while_condition5
+  br label %entry32
+
+if_false31:                                       ; preds = %while_entry13
+  br label %entry32
+
+entry32:                                          ; preds = %if_false31, %if_true30
+  br label %while_condition5
 }

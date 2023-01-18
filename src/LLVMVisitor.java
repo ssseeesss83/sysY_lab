@@ -143,7 +143,6 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
                             lval);
-                   // System.out.println(LLVMConstIntGetSExtValue(LLVMBuildLoad(builder,lval,"")));
                 }else {
                     LLVMBuildStore(builder,
                             getExpVal(ctx.exp()),
@@ -216,8 +215,10 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             LLVMPositionBuilderAtEnd(builder,entry);
         }else if(ctx.BREAK()!=null){//break
             LLVMBuildBr(builder,entryStack.pop());
+            condStack.pop();
         }else if(ctx.CONTINUE()!=null){//continue
             LLVMBuildBr(builder,condStack.pop());
+            entryStack.pop();
         }
         return null;
     }
@@ -342,7 +343,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                 val = LLVMBuildLoad(builder, ref, "val_"+((SysYParser.LvalExpContext) exp).lVal().IDENT().getText());
             }else{//arrayType
                 if(((SysYParser.LvalExpContext) exp).lVal().L_BRACKT().size()==0){
-                    val = LLVMBuildLoad(builder, ref, "array_pointer_"+((SysYParser.LvalExpContext) exp).lVal().IDENT().getText()); //pointer
+                    val = LLVMBuildLoad(builder, ref, "pointer_"+((SysYParser.LvalExpContext) exp).lVal().IDENT().getText()); //pointer
                 }else{
                     LLVMValueRef index = getExpVal(((SysYParser.LvalExpContext) exp).lVal().exp().get(0));
                     val = LLVMBuildLoad(builder,
