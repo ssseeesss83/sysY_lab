@@ -198,6 +198,7 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             LLVMBasicBlockRef whileCond = LLVMAppendBasicBlock(currentFunction,"while_condition");
             LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"while_entry");
             LLVMBuildBr(builder,whileCond);
+            //同步操作
             entryStack.push(entry);
             condStack.push(whileCond);
             //while cond
@@ -213,12 +214,14 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             }
             LLVMBuildBr(builder,whileCond);
             LLVMPositionBuilderAtEnd(builder,entry);
-        }else if(ctx.BREAK()!=null && condStack.size()!=0){//break
-            LLVMBuildBr(builder,entryStack.pop());
-            condStack.pop();
-        }else if(ctx.CONTINUE()!=null && condStack.size()!=0){//continue
-            LLVMBuildBr(builder,condStack.pop());
             entryStack.pop();
+            condStack.pop();
+        }else if(ctx.BREAK()!=null && condStack.size()!=0){//break
+            LLVMBuildBr(builder,entryStack.lastElement());
+            System.out.println(ctx.start.getLine() + "" + ctx.getText());
+        }else if(ctx.CONTINUE()!=null && condStack.size()!=0){//continue
+            LLVMBuildBr(builder,condStack.lastElement());
+            System.out.println(ctx.start.getLine() + "" + ctx.getText());
         }
         return null;
     }
