@@ -1,27 +1,45 @@
 ; ModuleID = 'moudle'
 source_filename = "moudle"
 
-@global_array_a = global [3 x i32] [i32 0, i32 1, i32 1]
-
 define i32 @main() {
 mainEntry:
-  %0 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %temp = icmp ne i32 %0, 0
-  %temp1 = xor i1 %temp, true
-  %i1_to_i32 = zext i1 %temp1 to i32
-  store i32 %i1_to_i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %1 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 0), align 4
-  %cond = icmp ne i32 %1, 0
-  br i1 %cond, label %if_true, label %if_false
+  %FunctionScope_main_a = alloca i32, align 4
+  store i32 0, i32* %FunctionScope_main_a, align 4
+  %FunctionScope_main_count = alloca i32, align 4
+  store i32 0, i32* %FunctionScope_main_count, align 4
+  br label %while_condition
 
-if_true:                                          ; preds = %mainEntry
-  store i32 2, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 1), align 4
+while_body:                                       ; preds = %while_condition
+  %array_pointer_a1 = load i32, i32* %FunctionScope_main_a, align 4
+  %temp = sub i32 %array_pointer_a1, 1
+  store i32 %temp, i32* %FunctionScope_main_a, align 4
+  %array_pointer_count = load i32, i32* %FunctionScope_main_count, align 4
+  %temp2 = add i32 %array_pointer_count, 1
+  store i32 %temp2, i32* %FunctionScope_main_count, align 4
+  %array_pointer_a3 = load i32, i32* %FunctionScope_main_a, align 4
+  %"<" = icmp slt i32 %array_pointer_a3, -20
+  %i1_to_i324 = zext i1 %"<" to i32
+  %cond5 = icmp ne i32 %i1_to_i324, 0
+  br i1 %cond5, label %if_true, label %if_false
+
+while_condition:                                  ; preds = %entry, %mainEntry
+  %array_pointer_a = load i32, i32* %FunctionScope_main_a, align 4
+  %"<=" = icmp sle i32 %array_pointer_a, 0
+  %i1_to_i32 = zext i1 %"<=" to i32
+  %cond = icmp ne i32 %i1_to_i32, 0
+  br i1 %cond, label %while_body, label %while_entry
+
+while_entry:                                      ; preds = %if_true, %while_condition
+  %array_pointer_count6 = load i32, i32* %FunctionScope_main_count, align 4
+  ret i32 %array_pointer_count6
+
+if_true:                                          ; preds = %while_body
+  br label %while_entry
   br label %entry
 
-if_false:                                         ; preds = %mainEntry
+if_false:                                         ; preds = %while_body
   br label %entry
 
 entry:                                            ; preds = %if_false, %if_true
-  %2 = load i32, i32* getelementptr inbounds ([3 x i32], [3 x i32]* @global_array_a, i32 0, i32 1), align 4
-  ret i32 %2
+  br label %while_condition
 }

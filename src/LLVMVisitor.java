@@ -16,6 +16,8 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
     LLVMValueRef currentFunction = null;
     LLVMBasicBlockRef currentEntry = null;
     private Map<String, LLVMValueRef> symbolTable = new HashMap<>();
+    Stack<LLVMBasicBlockRef> entryStack = new Stack<>();
+    Stack<LLVMBasicBlockRef> condStack = new Stack<>();
 
 
     //创建module
@@ -192,6 +194,30 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
                     LLVMBuildRetVoid(builder);
                 }
             }
+        }else if(ctx.WHILE()!=null){ //while
+            LLVMBasicBlockRef whileBody = LLVMAppendBasicBlock(currentFunction,"while_body");
+            LLVMBasicBlockRef whileCond = LLVMAppendBasicBlock(currentFunction,"while_condition");
+            LLVMBasicBlockRef entry = LLVMAppendBasicBlock(currentFunction,"while_entry");
+            LLVMBuildBr(builder,whileCond);
+            entryStack.push(entry);
+            condStack.push(whileCond);
+            //while cond
+            LLVMPositionBuilderAtEnd(builder,whileCond);
+            LLVMValueRef cond = LLVMBuildICmp(builder,LLVMIntNE, getCond(ctx.cond()),zero,"cond");
+            LLVMBuildCondBr(builder,cond,whileBody,entry);
+            //while body
+            LLVMPositionBuilderAtEnd(builder,whileBody);
+            if(ctx.stmt(0).block()!=null) {
+                visitBlock(ctx.stmt(0).block());
+            }else {
+                visitStmt(ctx.stmt(0));
+            }
+            LLVMBuildBr(builder,whileCond);
+            LLVMPositionBuilderAtEnd(builder,entry);
+        }else if(ctx.BREAK()!=null){//break
+            LLVMBuildBr(builder,entryStack.pop());
+        }else if(ctx.CONTINUE()!=null){//continue
+            LLVMBuildBr(builder,condStack.pop());
         }
         return null;
     }
