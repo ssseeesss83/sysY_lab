@@ -215,10 +215,14 @@ public class LLVMVisitor extends SysYParserBaseVisitor<LLVMValueRef>{
             LLVMPositionBuilderAtEnd(builder,entry);
         }else if(ctx.BREAK()!=null){//break
             LLVMBuildBr(builder,entryStack.pop());
-            condStack.pop();
+            if(condStack.size()!=0) {
+                condStack.pop();
+            }
         }else if(ctx.CONTINUE()!=null){//continue
             LLVMBuildBr(builder,condStack.pop());
-            entryStack.pop();
+            if(entryStack.size()!=0) {
+                entryStack.pop();
+            }
         }
         return null;
     }

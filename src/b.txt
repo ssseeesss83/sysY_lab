@@ -5,98 +5,183 @@ define i32 @main() {
 mainEntry:
   %FunctionScope_main_sum = alloca i32, align 4
   store i32 0, i32* %FunctionScope_main_sum, align 4
-  %FunctionScope_main_a = alloca i32, align 4
-  store i32 0, i32* %FunctionScope_main_a, align 4
+  %FunctionScope_main_i = alloca i32, align 4
+  store i32 0, i32* %FunctionScope_main_i, align 4
   br label %while_condition
 
 while_body:                                       ; preds = %while_condition
+  %LocalScope_0_j = alloca i32, align 4
+  store i32 0, i32* %LocalScope_0_j, align 4
   br label %while_condition2
 
-while_condition:                                  ; preds = %while_entry6, %mainEntry
-  %pointer_sum = load i32, i32* %FunctionScope_main_sum, align 4
-  %"<" = icmp slt i32 %pointer_sum, 5
+while_condition:                                  ; preds = %while_entry3, %mainEntry
+  %pointer_i = load i32, i32* %FunctionScope_main_i, align 4
+  %"<" = icmp slt i32 %pointer_i, 20
   %i1_to_i32 = zext i1 %"<" to i32
   %cond = icmp ne i32 %i1_to_i32, 0
   br i1 %cond, label %while_body, label %while_entry
 
-while_entry:                                      ; preds = %while_entry6, %while_condition
-  %pointer_sum33 = load i32, i32* %FunctionScope_main_sum, align 4
-  ret i32 %pointer_sum33
+while_entry:                                      ; preds = %while_condition
+  %pointer_sum71 = load i32, i32* %FunctionScope_main_sum, align 4
+  ret i32 %pointer_sum71
 
 while_body1:                                      ; preds = %while_condition2
-  br label %while_entry3
-  br label %while_condition2
+  %LocalScope_1_k = alloca i32, align 4
+  store i32 0, i32* %LocalScope_1_k, align 4
+  br label %while_condition8
 
-while_condition2:                                 ; preds = %while_body1, %while_body
-  br i1 true, label %while_body1, label %while_entry3
+while_condition2:                                 ; preds = %while_entry9, %while_body
+  %pointer_j = load i32, i32* %LocalScope_0_j, align 4
+  %"<4" = icmp slt i32 %pointer_j, 10
+  %i1_to_i325 = zext i1 %"<4" to i32
+  %cond6 = icmp ne i32 %i1_to_i325, 0
+  br i1 %cond6, label %while_body1, label %while_entry3
 
-while_entry3:                                     ; preds = %while_body1, %while_condition2
-  br label %while_condition5
-
-while_body4:                                      ; preds = %while_condition5
-  br label %while_condition12
-
-while_condition5:                                 ; preds = %entry32, %if_true30, %while_entry3
-  %pointer_sum7 = load i32, i32* %FunctionScope_main_sum, align 4
-  %"<8" = icmp slt i32 %pointer_sum7, 4
-  %i1_to_i329 = zext i1 %"<8" to i32
-  %cond10 = icmp ne i32 %i1_to_i329, 0
-  br i1 %cond10, label %while_body4, label %while_entry6
-
-while_entry6:                                     ; preds = %while_condition5
-  br label %while_entry
+while_entry3:                                     ; preds = %while_condition2
+  %pointer_i69 = load i32, i32* %FunctionScope_main_i, align 4
+  %temp70 = add i32 %pointer_i69, 1
+  store i32 %temp70, i32* %FunctionScope_main_i, align 4
   br label %while_condition
 
-while_body11:                                     ; preds = %while_condition12
-  %pointer_sum18 = load i32, i32* %FunctionScope_main_sum, align 4
-  %temp = add i32 %pointer_sum18, 1
-  store i32 %temp, i32* %FunctionScope_main_sum, align 4
-  %pointer_a = load i32, i32* %FunctionScope_main_a, align 4
-  %temp19 = add i32 %pointer_a, 1
-  store i32 %temp19, i32* %FunctionScope_main_a, align 4
-  %pointer_a20 = load i32, i32* %FunctionScope_main_a, align 4
-  %"==" = icmp eq i32 %pointer_a20, 2
-  %i1_to_i3221 = zext i1 %"==" to i32
-  %cond22 = icmp ne i32 %i1_to_i3221, 0
-  br i1 %cond22, label %if_true, label %if_false
+while_body7:                                      ; preds = %while_condition8
+  %LocalScope_2_m = alloca i32, align 4
+  store i32 0, i32* %LocalScope_2_m, align 4
+  br label %while_condition14
 
-while_condition12:                                ; preds = %entry, %while_body4
-  %pointer_sum14 = load i32, i32* %FunctionScope_main_sum, align 4
-  %"<15" = icmp slt i32 %pointer_sum14, 3
-  %i1_to_i3216 = zext i1 %"<15" to i32
-  %cond17 = icmp ne i32 %i1_to_i3216, 0
-  br i1 %cond17, label %while_body11, label %while_entry13
+while_condition8:                                 ; preds = %while_entry9, %while_entry59, %while_body1
+  %pointer_k = load i32, i32* %LocalScope_1_k, align 4
+  %"<10" = icmp slt i32 %pointer_k, 5
+  %i1_to_i3211 = zext i1 %"<10" to i32
+  %cond12 = icmp ne i32 %i1_to_i3211, 0
+  br i1 %cond12, label %while_body7, label %while_entry9
 
-while_entry13:                                    ; preds = %if_true, %while_condition12
-  %pointer_sum23 = load i32, i32* %FunctionScope_main_sum, align 4
-  %temp24 = add i32 %pointer_sum23, 1
-  store i32 %temp24, i32* %FunctionScope_main_sum, align 4
-  %pointer_a25 = load i32, i32* %FunctionScope_main_a, align 4
-  %temp26 = add i32 %pointer_a25, 1
-  store i32 %temp26, i32* %FunctionScope_main_a, align 4
-  %pointer_a27 = load i32, i32* %FunctionScope_main_a, align 4
-  %">" = icmp sgt i32 %pointer_a27, 1
-  %i1_to_i3228 = zext i1 %">" to i32
-  %cond29 = icmp ne i32 %i1_to_i3228, 0
-  br i1 %cond29, label %if_true30, label %if_false31
+while_entry9:                                     ; preds = %while_condition8
+  %pointer_j65 = load i32, i32* %LocalScope_0_j, align 4
+  %temp66 = add i32 %pointer_j65, 1
+  store i32 %temp66, i32* %LocalScope_0_j, align 4
+  br label %while_condition8
+  %pointer_j67 = load i32, i32* %LocalScope_0_j, align 4
+  %temp68 = add i32 %pointer_j67, 1
+  store i32 %temp68, i32* %LocalScope_0_j, align 4
+  br label %while_condition2
 
-if_true:                                          ; preds = %while_body11
-  br label %while_entry13
+while_body13:                                     ; preds = %while_condition14
+  %pointer_m19 = load i32, i32* %LocalScope_2_m, align 4
+  %temp = add i32 %pointer_m19, 1
+  %">=" = icmp sge i32 %temp, 3
+  %i1_to_i3220 = zext i1 %">=" to i32
+  %cond21 = icmp ne i32 %i1_to_i3220, 0
+  br i1 %cond21, label %if_true, label %if_false
+
+while_condition14:                                ; preds = %while_entry46, %while_body7
+  %pointer_m = load i32, i32* %LocalScope_2_m, align 4
+  %"<16" = icmp slt i32 %pointer_m, 3
+  %i1_to_i3217 = zext i1 %"<16" to i32
+  %cond18 = icmp ne i32 %i1_to_i3217, 0
+  br i1 %cond18, label %while_body13, label %while_entry15
+
+while_entry15:                                    ; preds = %while_body44, %while_condition14
+  br label %while_condition58
+
+if_true:                                          ; preds = %while_body13
+  %pointer_m22 = load i32, i32* %LocalScope_2_m, align 4
+  %cond23 = icmp ne i32 %pointer_m22, 0
+  br i1 %cond23, label %if_true24, label %if_false25
+
+if_false:                                         ; preds = %while_body13
   br label %entry
 
-if_false:                                         ; preds = %while_body11
+entry:                                            ; preds = %if_false, %entry26
+  %LocalScope_3_n = alloca i32, align 4
+  store i32 0, i32* %LocalScope_3_n, align 4
+  br label %while_condition45
+
+if_true24:                                        ; preds = %if_true
+  %pointer_m27 = load i32, i32* %LocalScope_2_m, align 4
+  %pointer_m28 = load i32, i32* %LocalScope_2_m, align 4
+  %temp29 = icmp ne i32 %pointer_m28, 0
+  %temp30 = xor i1 %temp29, true
+  %i1_to_i3231 = zext i1 %temp30 to i32
+  %"||" = or i32 %pointer_m27, %i1_to_i3231
+  %cond32 = icmp ne i32 %"||", 0
+  br i1 %cond32, label %if_true33, label %if_false34
+
+if_false25:                                       ; preds = %if_true
+  br label %entry26
+
+entry26:                                          ; preds = %if_false25, %entry35
   br label %entry
 
-entry:                                            ; preds = %if_false, %if_true
-  br label %while_condition12
+if_true33:                                        ; preds = %if_true24
+  %pointer_m36 = load i32, i32* %LocalScope_2_m, align 4
+  %temp37 = sub i32 %pointer_m36, -1
+  %">=38" = icmp sge i32 %temp37, 3
+  %i1_to_i3239 = zext i1 %">=38" to i32
+  %cond40 = icmp ne i32 %i1_to_i3239, 0
+  br i1 %cond40, label %if_true41, label %if_false42
 
-if_true30:                                        ; preds = %while_entry13
-  br label %while_condition5
-  br label %entry32
+if_false34:                                       ; preds = %if_true24
+  br label %entry35
 
-if_false31:                                       ; preds = %while_entry13
-  br label %entry32
+entry35:                                          ; preds = %if_false34, %entry43
+  br label %entry26
 
-entry32:                                          ; preds = %if_false31, %if_true30
-  br label %while_condition5
+if_true41:                                        ; preds = %if_true33
+  br label %entry43
+
+if_false42:                                       ; preds = %if_true33
+  br label %entry43
+
+entry43:                                          ; preds = %if_false42, %if_true41
+  br label %entry35
+
+while_body44:                                     ; preds = %while_condition45
+  %pointer_n50 = load i32, i32* %LocalScope_3_n, align 4
+  %temp51 = add i32 %pointer_n50, 1
+  store i32 %temp51, i32* %LocalScope_3_n, align 4
+  br label %while_condition45
+  br label %while_entry15
+  %pointer_sum = load i32, i32* %FunctionScope_main_sum, align 4
+  %temp52 = add i32 %pointer_sum, 1
+  store i32 %temp52, i32* %FunctionScope_main_sum, align 4
+  br label %while_condition45
+
+while_condition45:                                ; preds = %while_body44, %while_body44, %entry
+  %pointer_n = load i32, i32* %LocalScope_3_n, align 4
+  %"<47" = icmp slt i32 %pointer_n, 2
+  %i1_to_i3248 = zext i1 %"<47" to i32
+  %cond49 = icmp ne i32 %i1_to_i3248, 0
+  br i1 %cond49, label %while_body44, label %while_entry46
+
+while_entry46:                                    ; preds = %while_condition45
+  %pointer_m53 = load i32, i32* %LocalScope_2_m, align 4
+  %temp54 = add i32 %pointer_m53, 1
+  store i32 %temp54, i32* %LocalScope_2_m, align 4
+  %pointer_sum55 = load i32, i32* %FunctionScope_main_sum, align 4
+  %temp56 = add i32 %pointer_sum55, 1
+  store i32 %temp56, i32* %FunctionScope_main_sum, align 4
+  br label %while_condition14
+
+while_body57:                                     ; preds = %while_condition58
+  br label %while_condition61
+
+while_condition58:                                ; preds = %while_entry62, %while_entry15
+  br i1 true, label %while_body57, label %while_entry59
+
+while_entry59:                                    ; preds = %while_entry62, %while_condition58
+  %pointer_k63 = load i32, i32* %LocalScope_1_k, align 4
+  %temp64 = add i32 %pointer_k63, 1
+  store i32 %temp64, i32* %LocalScope_1_k, align 4
+  br label %while_condition8
+
+while_body60:                                     ; preds = %while_condition61
+  br label %while_entry62
+  br label %while_condition61
+
+while_condition61:                                ; preds = %while_body60, %while_body57
+  br i1 true, label %while_body60, label %while_entry62
+
+while_entry62:                                    ; preds = %while_body60, %while_condition61
+  br label %while_entry59
+  br label %while_condition58
 }
